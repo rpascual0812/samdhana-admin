@@ -1,0 +1,223 @@
+<div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Banners</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                        <li class="breadcrumb-item active">Banners</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"></h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 450px;">
+                            <div class="input-group-prepend">
+                                <button type="submit" class="btn btn-default" (click)="openModal(null)">
+                                    Add New Banner
+                                </button>
+                            </div>
+                            <input [(ngModel)]="filters.keyword" type="text" name="table_search"
+                                class="form-control float-right" placeholder="Search" (keyup.enter)="fetch()">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default" (click)="fetch()">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-6 col-xl-4" *ngFor="let banner of banners; let i = index">
+                            <div class="card mb-2 bg-gradient-dark" style="width: 530px; height: 350px;">
+                                <div style="position: absolute; top: 5px; right: 5px; z-index: 999; cursor: pointer;">
+                                    <i class="fa fa-edit text-success" (click)="openModal(banner)"></i>
+                                    <i class="fa fa-times-circle text-danger ml-2" (click)="delete(i)"></i>
+                                </div>
+
+                                <img class="card-img-top"
+                                    style="filter: brightness(50%); width: 530px; height: 350px; object-fit: cover;"
+                                    src="{{url}}/{{banner['background']['document']['path']}}" alt="">
+                                <div class="row card-img-overlay d-flex flex-column justify-content-end text-center">
+                                    <img *ngIf="banner['icon']['document'] != null" style="border-radius: 50%; height: 40px; width: 40px; position: absolute; left: 46%; 
+    top: 37%;" src="{{url}}/{{banner['icon']['document'] != null ? banner['icon']['document']['path'] : 'assets/images/user_.png'}}">
+                                    <h2 class="text-white">{{banner.title}}</h2>
+                                    <p class="card-text text-white pb-2 pt-1 text-justify" style="line-height: normal;">
+                                        {{banner.details}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <table class=" table table-hover text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Order</th>
+                                                <th>Icon</th>
+                                                <th>Background</th>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>Owner</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                *ngFor="let banner of banners| paginate : { itemsPerPage: pagination.tableSize, currentPage: pagination.page, totalItems: pagination.count }; let i = index">
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            {{i + 1}}
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            <i *ngIf="banner.order != 1" class="fa fa-arrow-up"
+                                                                style="cursor: pointer; color: grey;"
+                                                                title="Move Up"></i>
+                                                            <i *ngIf="banner.order != banners.length"
+                                                                class="fa fa-arrow-down ml-2"
+                                                                style="cursor: pointer; color: grey;"
+                                                                title="Move Down"></i>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+                                                <td>
+                                                    <img class="direct-chat-img"
+                                                        src="{{url}}/{{banner['icon']['document'] != null ? banner['icon']['document']['path'] : 'assets/images/user_.png'}}"
+                                                        alt="">
+                                                </td>
+                                                <td>
+                                                    <img style="height: 100px;"
+                                                        src="{{url}}/{{banner['background']['document']['path']}}"
+                                                        alt="">
+                                                </td>
+                                                <td>{{banner.title}}</td>
+                                                <td class="text-wrap text-justify" style="max-width: 200px;">
+                                                    {{banner.details}}
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        {{banner.user.first_name}} {{banner.user.last_name}}
+                                                    </div>
+                                                    <div>
+                                                        {{banner.date_formatted}}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-default"
+                                                        (click)="openModal(banner)">Edit</button>
+                                                    <button class="btn btn-sm btn-danger ml-1" (click)="delete(i)">
+                                                        <i class="fa fa-times"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="100%">
+                                                    <div class="d-flex flex-row-reverse" *ngIf="pagination.count>0">
+                                                        <pagination-controls responsive="true" previousLabel="Prev"
+                                                            nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                                                        </pagination-controls>
+                                                        <div>
+                                                            <select (change)="onTableSizeChange($event)"
+                                                                class="form-control form-control-sm">
+                                                                <option *ngFor="let size of tableSizes"
+                                                                    [ngValue]="size">
+                                                                    {{ size }}
+                                                                </option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                        </table> -->
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+<div class="modal fade" id="employee" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="nav-wrapper">
+                    <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link mb-sm-3 mb-md-0 active" id="tab-personal-information" data-toggle="tab"
+                                href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1"
+                                aria-selected="true"><i class="ni ni-single-02 mr-2"></i>Personal Information</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-sm-3 mb-md-0" id="tab-company-information" data-toggle="tab"
+                                href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2"
+                                aria-selected="false"><i class="ni ni-badge mr-2"></i>Company Information</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-sm-3 mb-md-0" id="tab-leave-information" data-toggle="tab"
+                                href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3"
+                                aria-selected="false"><i class="ni ni-calendar-grid-58 mr-2"></i>Leave Information</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
+                                aria-labelledby="tab-personal-information">
+                                <form>
+
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel"
+                                aria-labelledby="tab-company-information">
+                                <p class="description">Cosby sweater eu banh mi, qui irure terry
+                                    richardson ex squid.
+                                    Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan
+                                    american apparel,
+                                    butcher voluptate nisi qui.</p>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel"
+                                aria-labelledby="tab-leave-information">
+                                <p class="description">Raw denim you probably haven't heard of them jean
+                                    shorts Austin.
+                                    Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache
+                                    cliche tempor,
+                                    williamsburg carles vegan helvetica. Reprehenderit butcher retro
+                                    keffiyeh
+                                    dreamcatcher synth.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

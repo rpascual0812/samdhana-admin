@@ -1,0 +1,41 @@
+.picture {
+    position: relative;
+    text-align: center;
+}
+
+.image {
+    display: block;
+}
+
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    transition: .3s ease;
+    background-color: #007bff;
+    border-radius: 50%;
+}
+
+.picture:hover .overlay {
+    opacity: 0.8;
+}
+
+.icon {
+    color: black;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+    opacity: 1;
+}
+
+.fa-user:hover {
+    color: #eee;
+}

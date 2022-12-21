@@ -1,0 +1,48 @@
+<div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>User Agreement</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                        <li class="breadcrumb-item active">user agreement</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <accordion>
+            <accordion-group heading="Disclaimer">
+                <app-texteditor #disclaimer [conditions]="{ showUploader: false }" [content]="agreement.disclaimer">
+                </app-texteditor>
+                <div *ngIf=" f.disclaimer.errors" class="invalid-feedback">
+                    <div *ngIf="f.disclaimer.errors.required">Disclaimer is required</div>
+                </div>
+            </accordion-group>
+            <accordion-group heading="Legal Conditions">
+                <app-texteditor #legal [conditions]="{ showUploader: false }" [content]="agreement.legal">
+                </app-texteditor>
+                <div *ngIf="f.legal.errors" class="invalid-feedback">
+                    <div *ngIf="f.legal.errors.required">Legal Conditions is required</div>
+                </div>
+            </accordion-group>
+            <accordion-group heading="Terms and Conditions">
+                <app-texteditor #terms [conditions]="{ showUploader: false }" [content]="agreement.terms">
+                </app-texteditor>
+                <div *ngIf="f.terms.errors" class="invalid-feedback">
+                    <div *ngIf="f.terms.errors.required">Terms and Conditions is required</div>
+                </div>
+            </accordion-group>
+        </accordion>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button class="btn btn-md btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

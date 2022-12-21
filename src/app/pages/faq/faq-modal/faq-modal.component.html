@@ -1,0 +1,46 @@
+<div>
+    <div class="modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{title}}</h4>
+                <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="form" (ngSubmit)="submit()">
+                            <div class="form-group">
+                                <label for="example-email-input" class="form-control-label">Question</label>
+                                <input class="form-control" type="text" placeholder="Question"
+                                    formControlName="question"
+                                    [ngClass]="{ 'is-invalid': submitted && f.question.errors }">
+                                <div *ngIf="submitted && f.question.errors" class="invalid-feedback">
+                                    <div *ngIf="f.question.errors.required">Question is required</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Answer</label>
+                                <textarea class="form-control" rows="4" formControlName="answer"
+                                    [ngClass]="{ 'is-invalid': submitted && f.answer.errors }"></textarea>
+                                <!-- <app-texteditor #answer [conditions]="{ showUploader: false }"
+                                    [content]="faq ? faq.answer : ''">
+                                </app-texteditor> -->
+
+                                <div *ngIf="submitted && f.answer.errors" class="invalid-feedback">
+                                    <div *ngIf="f.answer.errors.required">Answer is required</div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="submit()">{{saveBtnName}}</button>
+                <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+            </div>
+        </div>
+    </div>
+</div>

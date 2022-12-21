@@ -1,0 +1,54 @@
+.flex-table {
+    .row{ 
+        margin: 5px 0; 
+        padding: 0 20px; 
+        align-items: center; 
+    
+    }
+    .col{ 
+        padding: 0 10px; 
+        overflow: hidden; 
+        text-overflow: ellipsis;
+    }
+    .thead {
+        // color: #979797;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 12px;
+        margin: 15px 0;
+        &.tall {
+            background-color: #263338;
+            margin: 0;
+            padding: 5px 0;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: initial;
+            .col {
+                border-right: 1px solid rgba(255, 255, 255, 0.2);
+                text-align: center;
+                align-self: stretch;
+                &:last-child {
+                    border: none;
+                }
+                .large {
+                    font-size: 21px;
+                    color: #CCC;
+                }
+            }
+        }
+    }
+    .tbody {
+        .row {
+            background-color: rgba(0, 0, 0, 0.025);
+            padding-top: 10px;
+            padding-bottom: 10px;
+            color: #636262;
+            font-size: 12px;
+            border-radius: 8px;
+            box-shadow: 1px 1px #CCC;
+        }
+        &.scroll {
+            max-height: 100px;
+            overflow-x: scroll;
+        }
+    }
+}

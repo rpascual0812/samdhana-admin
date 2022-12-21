@@ -1,0 +1,75 @@
+<div>
+    <div class="modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{title}}</h4>
+                <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form [formGroup]="form" (ngSubmit)="submit()">
+                            <div class="form-group">
+                                <label for="example-email-input" class="form-control-label">Title</label>
+                                <input class="form-control" type="email" placeholder="Title" formControlName="title"
+                                    [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+                                <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+                                    <div *ngIf="f.title.errors.required">Title is required</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Description</label>
+                                <textarea class="form-control" rows="4" formControlName="details"
+                                    [ngClass]="{ 'is-invalid': submitted && f.details.errors }"></textarea>
+
+                                <div *ngIf="submitted && f.details.errors" class="invalid-feedback">
+                                    <div *ngIf="f.details.errors.required">Description is required</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-12 d-flex flex-column">
+                                    <label for="example-text-input" class="form-control-label">Icon</label>
+                                    <br>
+                                    <img class="direct-chat-img"
+                                        style="width: 100px !important; height: 100px !important;"
+                                        src="{{url}}/{{icon.document ? icon.document.path : 'assets/images/user_.png'}}"
+                                        alt="">
+                                    <button type="button" class="btn btn-outline-dark mt-2" style="width: 150px;"
+                                        (click)="uploadFiles('icon')">
+                                        Upload new icon
+                                    </button>
+                                </div>
+
+                                <div class="form-group col-md-12 d-flex flex-column">
+                                    <label for="example-text-input" class="form-control-label">Background</label>
+                                    <br>
+                                    <img style="width: 760px !important;"
+                                        src="{{url}}/{{background.document ? background.document.path : 'assets/images/no-image.jpg'}}"
+                                        alt="">
+
+                                    <button type="button" class="btn btn-outline-dark mt-2" style="width: 200px;"
+                                        (click)="uploadFiles('background')">
+                                        Upload new background
+                                    </button>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="submit()">{{saveBtnName}}</button>
+                <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+            </div>
+        </div>
+    </div>
+</div>

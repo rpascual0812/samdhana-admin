@@ -1,0 +1,172 @@
+<div class="hold-transition register-page">
+    <div class="register-box">
+        <div class="card card-outline card-default" style="width: 25rem;">
+            <div class="card-header text-center">
+                <a href="../../index2.html" class="h1"><b>Axie</b>Infinity</a>
+            </div>
+            <div class="card-body">
+                <!-- <p class="login-box-msg">Create a new account</p> -->
+
+                <form role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="First name" formControlName="first_name"
+                            [class]="{ 'is-invalid': f.first_name.errors && (f.first_name.dirty || f.first_name.touched) }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="f.first_name.errors" class="invalid-feedback">
+                            <div *ngIf="f.first_name.errors.required">First Name is required</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Middle name" formControlName="middle_name"
+                            [class]="{ 'is-invalid': f.middle_name.errors && (f.middle_name.dirty || f.middle_name.touched) }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="f.middle_name.errors" class="invalid-feedback">
+                            <div *ngIf="f.middle_name.errors.required">Middle Name is required</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Last name" formControlName="last_name"
+                            [class]="{ 'is-invalid': f.last_name.errors && (f.last_name.dirty || f.last_name.touched) }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="f.last_name.errors" class="invalid-feedback">
+                            <div *ngIf="f.last_name.errors.required">Last Name is required</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email" formControlName="email"
+                            [class]="{ 'is-invalid': f.email.errors && (f.email.dirty || f.email.touched) }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">Email Address is required</div>
+                            <div *ngIf="f.email.errors.pattern">Email Address must be a valid email</div>
+                            <div *ngIf="f.email.errors.MustValid">Email Address doesn't exists</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <select class="form-control">
+                                <option value="+63">+63</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Mobile" formControlName="mobile"
+                            maxlength="12"
+                            [class]="{ 'is-invalid': f.mobile.errors && (f.mobile.dirty || f.mobile.touched) }"
+                            (input)="numbersOnly($event)" phoneMask>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-phone-alt"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="f.mobile.errors" class="invalid-feedback">
+                            <div *ngIf="f.mobile.errors.required">Mobile Number is required</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <select name="" id="" class="form-control" formControlName="year" (change)="yearChanged()">
+                            <option value="">Year</option>
+                            <option value="{{year}}" *ngFor="let year of years; index as i">{{year}}</option>
+                        </select>
+                        <div class="input-group-append">
+                            <select name="" id="" class="form-control" style="width: 7rem;" formControlName="month"
+                                (change)="monthChanged()">
+                                <option value="">Month</option>
+                                <option value="{{month}}" *ngFor="let month of months; index as i">{{moment(month,
+                                    'MM').format('MMMM')}}</option>
+                            </select>
+                            <select name="" id="" class="form-control" formControlName="day">
+                                <option value="">Day</option>
+                                <option value="{{day}}" *ngFor="let day of days; index as i">{{day}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Password" formControlName="password"
+                            [class]="{ 'is-invalid': f.password.errors && (f.password.dirty || f.password.touched) }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Confirm password"
+                            formControlName="confirm_password"
+                            [class]="{ 'is-invalid': f.confirm_password.errors && (f.confirm_password.dirty || f.confirm_password.touched) }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="f.confirm_password.errors" class="invalid-feedback">
+                            <div *ngIf="f.confirm_password.errors.required">Confirm Password is required</div>
+                            <div *ngIf="f.confirm_password.errors.minlength">Confirm Password must be at least 6
+                                characters
+                            </div>
+                            <div *ngIf="f.confirm_password.errors.mustMatch">Password and Confirm Password must match.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group icheck-primary">
+                                <input type="checkbox" formControlName="terms" id="terms" class="form-control"
+                                    [class]="{ 'is-invalid': isSubmitted && f.terms.errors }" />
+                                <label for="terms" class="form-check-label">I agree to the <a href="/terms"
+                                        target="_blank">Terms &
+                                        Conditions</a></label>
+                                <div *ngIf="isSubmitted && f.terms.errors" class="invalid-feedback">Please agree to the
+                                    terms and conditions</div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-8"></div>
+                                <div class="col-4">
+                                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="social-auth-links text-center">
+                    <a href="#" class="btn btn-block btn-default bg-gray">
+                        <i class="fab fa-discord mr-2"></i>
+                        Sign up using Discord
+                    </a>
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fab fa-facebook mr-2"></i>
+                        Sign up using Facebook
+                    </a>
+                    <a href="#" class="btn btn-block btn-danger">
+                        <i class="fab fa-google mr-2"></i>
+                        Sign up using Google
+                    </a>
+                </div>
+
+                <a href="/auth" class="text-center">I already have an account</a>
+            </div>
+            <!-- /.form-box -->
+        </div><!-- /.card -->
+    </div>
+</div>

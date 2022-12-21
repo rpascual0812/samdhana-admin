@@ -1,0 +1,51 @@
+<div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Feedback</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                        <li class="breadcrumb-item active">feedback</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="row">
+        <div class="col-md-12" *ngIf="feedbacks.length == 0">
+            <div class="alert alert-default text-center mt-5" role="alert">
+                No feedback found.
+            </div>
+        </div>
+        <div class="col-md-3" *ngFor="let feedback of feedbacks">
+            <div class="card card-widget">
+                <div class="card-header">
+                    <div class="user-block">
+                        <img class="img-circle" src="{{url}}/{{feedback.user.user_document.document.path}}"
+                            alt="User Image">
+                        <span class="username"><a href="javascript:void(0)">{{feedback.user.first_name}}
+                                {{feedback.user.last_name}}</a></span>
+                        <span class="description">{{feedback.date_formatted}}</span>
+                    </div>
+
+                    <!-- <div class="card-tools">
+                        <button type="button" class="btn btn-tool" title="Mark as read">
+                            <i class="far fa-circle"></i>
+                        </button>
+                    </div> -->
+                </div>
+
+                <div class="card-body">
+                    <p>{{feedback.message}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 text-center" *ngIf="feedbacks.length < pagination.count">
+            <button class="btn btn-md btn-default" (click)="loadMore()">Load more...</button>
+        </div>
+    </div>
+</div>

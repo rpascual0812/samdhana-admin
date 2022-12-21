@@ -1,0 +1,79 @@
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-body row">
+            <div class="col-md-12 text-center d-flex align-items-center justify-content-center mt-5">
+                <div class="">
+                    <img src="assets/img/brand/logo2.png" alt="" style="width: 100%;" />
+                    <p class="lead mb-5">123 Testing Ave, Testtown, 9876 NA<br>
+                        Phone: +1 234 56789012
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-8 mt-5">
+                <div>
+                    <tabset #staticTabs>
+                        <tab heading="Submit a Ticket">
+                            <form role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                                <div class="form-group mt-5">
+                                    <label for="inputSubject">Category</label>
+                                    <select class="form-control" formControlName="category"
+                                        [class]="{ 'is-invalid': f.category.errors && (f.category.dirty || f.category.touched) }">
+                                        <option value="General">General</option>
+                                    </select>
+                                    <div *ngIf="f.category.errors" class="invalid-feedback">
+                                        <div *ngIf="f.category.errors.required">Please select a category</div>
+                                    </div>
+                                </div>
+                                <div class="form-group mt-5">
+                                    <label for="inputSubject">Subject</label>
+                                    <input type="text" id="inputSubject" class="form-control" formControlName="subject"
+                                        [class]="{ 'is-invalid': f.subject.errors && (f.subject.dirty || f.subject.touched) }" />
+                                    <div *ngIf="f.subject.errors" class="invalid-feedback">
+                                        <div *ngIf="f.subject.errors.required">Subject is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <app-texteditor [conditions]="{ showUploader: true }">
+                                    </app-texteditor>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary float-right" value="Submit"
+                                        [disabled]="isSubmitted" />
+
+                                    <input type="button" class="btn btn-danger float-right mr-2" value="Reset"
+                                        *ngIf="isSubmitted" (click)="reset()" />
+                                </div>
+                            </form>
+                        </tab>
+                        <tab heading="History">
+                            <div class="mt-5">
+                                <div class="flex-table">
+                                    <div class="thead">
+                                        <div class="row">
+                                            <div class="col">Date</div>
+                                            <div class="col">Category</div>
+                                            <div class="col">Subject</div>
+                                            <div class="col">Status</div>
+                                        </div>
+                                    </div>
+                                    <div class="tbody" *ngFor="let ticket of tickets; index as i">
+                                        <div class="row">
+                                            <div class="col">{{ticket.date_created}}</div>
+                                            <div class="col">{{ticket.category}}</div>
+                                            <div class="col">{{ticket.subject}}</div>
+                                            <div class="col">{{ticket.status}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

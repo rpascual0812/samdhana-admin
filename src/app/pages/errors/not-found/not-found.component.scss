@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&family=Roboto:wght@100;300&display=swap');
+@import 'src/variables.scss';
+
+h1.big {
+    color: #000;
+    font-size: clamp(4rem, 60vmin, 20rem);
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    margin-bottom: 1rem;
+    letter-spacing: 1rem;
+    text-shadow: 2px 2px;
+    color: rgba($color: $primary-color, $alpha: 0.1);
+    filter: blur(0.1vmin);
+}

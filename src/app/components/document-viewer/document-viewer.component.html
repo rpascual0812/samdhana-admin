@@ -1,0 +1,68 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Documents</h4>
+    <button type="button" class="close" aria-label="Close" (click)="documentViewerRef.hide()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-12 text-right">
+            <button class="btn btn-outline-dark" (click)="uploadFiles()">
+                Upload files
+            </button>
+        </div>
+
+        <div class="col-12" style="margin-top: 10px;">
+            <div class="card card-primary">
+                <div class="card-body">
+                    <div>
+                        <div class="mb-2">
+                            <a class="btn btn-secondary" href="javascript:void(0)" data-shuffle> Shuffle
+                                items </a>
+                            <div class="float-right">
+                                <div class="btn-group">
+                                    <div class="input-group-prepend">
+                                        <select class="custom-select" style="width: auto;" data-sortOrder>
+                                            <option value="index"> Sort by Date </option>
+                                            <option value="sortData"> Sort by Name </option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary" data-sortAsc>ASC</button>
+                                    <button type="button" class="btn btn-secondary" data-sortDesc>DESC</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row" style="min-height: 300px;">
+                            <div class="overlay" *ngIf="show">
+                                <div class="spinner-border m-5" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="image-checkbox"
+                                    [class]="document.selected ? 'image-checkbox-checked' : ''"
+                                    *ngFor="let document of documents; let i = index">
+                                    <img style="height: 200px;" src="{{url}}/{{document.path}}/{{document.filename}}"
+                                        (click)="toggleDocument(i)" />
+                                    <i class="fa fa-check"></i>
+                                </label>
+                                <div class="overlay" *ngIf="!show && documents.length == 0">
+                                    <div class="m-5" role="status">
+                                        No documents found
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="select()">Select</button>
+    <button type="button" class="btn btn-outline-dark" (click)="documentViewerRef.hide()">Cancel</button>
+</div>

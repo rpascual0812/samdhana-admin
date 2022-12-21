@@ -1,0 +1,175 @@
+<div class="hold-transition login-page">
+    <!-- snow-page -->
+    <div class="snow"></div>
+    <div class="login-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-login">
+                        <form role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <img src="assets/img/brand/logo2.png" alt="" style="width: 100%;" />
+                            <br />
+                            <br />
+                            <div class="input-group mb-3">
+                                <input type="email" class="form-control" placeholder="Email" formControlName="username"
+                                    [class]="{ 'is-invalid': f.username.errors && (f.username.dirty || f.username.touched) }">
+                                <!-- <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-envelope"></span>
+                                    </div>
+                                </div> -->
+                                <div *ngIf="f.username.errors" class="invalid-feedback">
+                                    <div *ngIf="f.username.errors.required">Email Address is required</div>
+                                    <div *ngIf="f.username.errors.username">Email Address must be a valid email</div>
+                                </div>
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="password" class="form-control" placeholder="Password"
+                                    formControlName="password"
+                                    [class]="{ 'is-invalid': f.password.errors && (f.password.dirty || f.password.touched) }">
+                                <!-- <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span class="fas fa-lock"></span>
+                                    </div>
+                                </div> -->
+                                <div *ngIf="f.password.errors" class="invalid-feedback">
+                                    <div *ngIf="f.password.errors.required">Password is required</div>
+                                    <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-8 pt-1">
+                                    <div class="icheck-grey">
+                                        <input type="checkbox" id="remember" formControlName="remember">
+                                        <label for="remember">
+                                            Remember Me
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <button type="submit" class="btn btn-block btn-primary" [disabled]="isSubmitted">
+                                        Sign In
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mt-3">
+                                    <p>Forgot your password? <a href="/auth/forgot-password" style="color:black">Click
+                                            here</a></p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>
+            Copyright &#169; {{year}}
+            <a style="color: black;" href="https://www.samdhana.org/">The Samdhana Institute</a>
+            All rights reserved.
+        </p>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="login-box" *ngIf="false">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-default">
+            <div class="card-header text-center">
+                <a href="/dashboard" class="h1"><b>Axie</b>Infinity</a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+
+                <form role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email" formControlName="username"
+                            [class]="{ 'is-invalid': f.username.errors && (f.username.dirty || f.username.touched) }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="f.username.errors" class="invalid-feedback">
+                            <div *ngIf="f.username.errors.required">Email Address is required</div>
+                            <div *ngIf="f.username.errors.username">Email Address must be a valid email</div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Password" formControlName="password"
+                            [class]="{ 'is-invalid': f.password.errors && (f.password.dirty || f.password.touched) }">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <div *ngIf="f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <!-- <div class="icheck-primary">
+                                <input type="checkbox" id="remember" formControlName="remember">
+                                <label for="remember">
+                                    Remember Me
+                                </label>
+                            </div> -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block" [disabled]="isSubmitted">Sign
+                                In</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+                <div class="social-auth-links text-center mt-5 mb-3">
+
+                    <a href="#" class="btn btn-block btn-default bg-gray">
+                        <i class="fab fa-discord mr-2"></i> Sign in using Discord
+                    </a>
+                    <a href="#" class="btn btn-block btn-primary">
+                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                    </a>
+                    <a href="#" class="btn btn-block btn-danger">
+                        <i class="fab fa-google mr-2"></i> Sign in using Google
+                    </a>
+                </div>
+                <!-- /.social-auth-links -->
+
+                <p class="mb-1">
+                    <a href="/auth/forgot-password">I forgot my password</a>
+                </p>
+                <p class="mb-0">
+                    <a href="/auth/register" class="text-center">Create a new account</a>
+                </p>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+
+</div>

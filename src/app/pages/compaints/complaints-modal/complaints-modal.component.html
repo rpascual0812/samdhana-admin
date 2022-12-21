@@ -1,0 +1,66 @@
+<div>
+    <div class="modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{title}}</h4>
+                <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="example-email-input" class="form-control-label">Subject</label>
+                            <!-- <input class="form-control" type="text" placeholder="Question"
+                                    formControlName="question"
+                                    [ngClass]="{ 'is-invalid': submitted && f.question.errors }"> -->
+                            <div>
+                                {{complaint.subject}}
+                            </div>
+                        </div>
+
+                        <div class="form-group direct-chat-primary">
+                            <label for="example-text-input" class="form-control-label">Conversation</label>
+                            <div #content class="direct-chat-messages" style="height: 500px; overflow: scroll;">
+
+                                <div #messageList class="direct-chat-msg {{message.self ? 'right' : ''}}"
+                                    *ngFor="let message of messages">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-left">{{message.user.first_name}}
+                                            {{message.user.last_name}}</span>
+                                        <span
+                                            class="direct-chat-timestamp float-right">{{message.date_formatted}}</span>
+                                    </div>
+
+                                    <img class="direct-chat-img"
+                                        src="{{url}}/{{message.user.user_document.document.path}}"
+                                        alt="Message User Image">
+
+                                    <div class="direct-chat-text" [innerHTML]="message.message"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group text-right" style="height: 250px;">
+
+                            <app-texteditor #message [conditions]="{ showUploader: false }" [content]="newMessage"
+                                [height]="200">
+                            </app-texteditor>
+
+                            <button type="button" class="btn btn-primary mt-2" (click)="submit()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="updateStatus('Closed')"
+                    *ngIf="complaint.status == 'Open'">Mark
+                    as solved</button>
+                <button type="button" class="btn btn-success" (click)="updateStatus('Open')"
+                    *ngIf="complaint.status == 'Closed'">Reopen</button>
+                <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+            </div>
+        </div>
+    </div>
+</div>

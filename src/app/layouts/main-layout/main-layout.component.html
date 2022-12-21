@@ -1,0 +1,32 @@
+<!-- <app-navbar (toggleMenuSidebar)="toggleMenuSidebar()"></app-navbar>
+
+<app-sidebar class="main-sidebar sidebar-dark-primary elevation-4"></app-sidebar>
+
+<div class="content-wrapper">
+<router-outlet></router-outlet>
+</div>
+
+<app-footer class="main-footer"></app-footer> -->
+
+<div class="wrapper">
+    <!-- Navbar -->
+    <app-navbar (toggleMenuSidebar)="toggleMenuSidebar()"></app-navbar>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <router-outlet></router-outlet>
+    </div>
+    <!-- /.content-wrapper -->
+
+    <app-footer></app-footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+</div>
