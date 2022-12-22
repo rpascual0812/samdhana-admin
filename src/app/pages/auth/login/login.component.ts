@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
         console.log(this.snowCount);
         this.form = this.formBuilder.group({
             username: ['email@gmail.com', [Validators.required]],
-            password: ['Password1', [Validators.required, Validators.minLength(6)]],
+            password: ['123456', [Validators.required, Validators.minLength(6)]],
             remember: [false]
         });
     }

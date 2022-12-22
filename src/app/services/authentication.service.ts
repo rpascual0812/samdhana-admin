@@ -14,6 +14,7 @@ export class AuthenticationService {
     ) { }
 
     login(data: any): Promise<any> {
+        data.role = 'admin';
         const url = `${_.BASE_URL}/login`;
         return this.http.post(url, data).toPromise();
     }
