@@ -16,6 +16,7 @@ import { AgreementModule } from '@pages/agreement/agreement.module';
 import { FaqModule } from '@pages/faq/faq.module';
 import { CompaintsModule } from '@pages/compaints/compaints.module';
 import { FeedbackModule } from '@pages/feedback/feedback.module';
+import { HomeModule } from '@pages/home/home.module';
 
 @NgModule({
     imports: [
@@ -25,6 +26,7 @@ import { FeedbackModule } from '@pages/feedback/feedback.module';
         ReactiveFormsModule,
         HttpClientModule,
         TexteditorModule,
+        HomeModule,
         UsersModule,
         BannersModule,
         NewsModule,
