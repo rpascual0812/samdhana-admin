@@ -19,6 +19,12 @@
                                 {{complaint.subject}}
                             </div>
                         </div>
+                        <div class="form-group" *ngIf="complaint.complaint_document">
+                            <div>
+                                <a href="{{url}}/{{complaint.complaint_document.document.path}}"
+                                    target="_blank">{{complaint.complaint_document.document.original_name}}</a>
+                            </div>
+                        </div>
 
                         <div class="form-group direct-chat-primary">
                             <label for="example-text-input" class="form-control-label">Conversation</label>

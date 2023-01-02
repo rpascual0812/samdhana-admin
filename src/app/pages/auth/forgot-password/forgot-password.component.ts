@@ -38,7 +38,7 @@ export class ForgotPasswordComponent implements OnInit {
             return;
         }
 
-        this.authenticationService.forgot({ email: this.form.value.email, url: window.location.origin })
+        this.authenticationService.forgot({ email: this.form.value.email, url: window.location.origin, device: 'web' })
             .then((data: any) => {
                 Swal.fire('Success', 'An email has been sent to ' + this.form.value.email + '!', 'success');
             })

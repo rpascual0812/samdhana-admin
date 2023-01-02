@@ -24,7 +24,8 @@
                         <div class="input-group" style="width: 600px;">
                             <select class="custom-select mr-2" style="width: 10px;" [(ngModel)]="concern"
                                 (change)="fetch()">
-                                <option value="{{concern}}" *ngFor="let concern of concerns;">{{concern}}</option>
+                                <option value="{{concern.value}}" *ngFor="let concern of concerns;">{{concern.label}}
+                                </option>
                             </select>
                             <select class="custom-select mr-2" style="width: 10px;" [(ngModel)]="status"
                                 (change)="fetch()">
@@ -59,7 +60,7 @@
                             </tr>
                             <tr
                                 *ngFor="let complaint of complaints| paginate : { itemsPerPage: pagination.tableSize, currentPage: pagination.page, totalItems: pagination.count }; let i = index">
-                                <td>{{complaint.type}}</td>
+                                <td>{{complaint.typeValue}}</td>
                                 <td>{{complaint.subject}}</td>
                                 <td>{{complaint.status}}</td>
                                 <td>

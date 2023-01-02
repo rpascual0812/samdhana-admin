@@ -30,8 +30,21 @@ export class CompaintsComponent implements OnInit {
     };
     tableSizes = [5, 10, 20, 30, 40, 50, 100, 300, 500, 1000];
 
-    concern = 'Product Concerns';
-    concerns = ['Product Concerns', 'Transaction Concerns'];
+    concern = 'product';
+    concerns = [
+        {
+            'value': 'product',
+            'label': 'Product Concerns'
+        },
+        {
+            'value': 'transaction',
+            'label': 'Transaction Concerns'
+        },
+        {
+            'value': 'producer',
+            'label': 'Producer Concerns'
+        }
+    ];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -56,6 +69,7 @@ export class CompaintsComponent implements OnInit {
     }
 
     fetch() {
+        this.complaints = [];
         this.filters.type = this.concern;
         this.filters.status = this.status;
         this.filters.skip = (this.pagination.page * this.pagination.tableSize) - this.pagination.tableSize;
@@ -67,6 +81,8 @@ export class CompaintsComponent implements OnInit {
                 next: (data: any) => {
                     this.complaints = data.data;
                     this.complaints.forEach(complaint => {
+                        const type = this.concerns.filter(concern => concern.value == complaint.type);
+                        complaint.typeValue = type[0].label;
                         complaint.date_formatted = DateTime.fromISO(complaint.date_created).toFormat('LLLL dd, yyyy hh:mm:ss a');
                         let icon = {};
                         let background = {};
