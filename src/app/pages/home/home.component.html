@@ -1,1 +1,191 @@
-<chart [type]="type" [data]="data" [options]="options"></chart>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-3">
+                <chart [type]="type" [data]="categories" [options]="options"></chart>
+            </div>
+            <div class="col-md-3">
+                <chart [type]="type" [data]="statuses" [options]="options"></chart>
+            </div>
+            <div class="col-md-6">
+                <div class="row pt-5">
+                    <div class="col-sm-3 col-6">
+                        <div class="description-block border-right">
+                            <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                            <h5 class="description-header" style="font-size: 60px;">613</h5>
+                            <span class="description-text">TOTAL ORDERS</span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-3 col-6">
+                        <div class="description-block border-right">
+                            <span class="description-percentage text-success"><i class="fas fa-caret-up"></i>
+                                2%</span>
+                            <h5 class="description-header" style="font-size: 60px;">526</h5>
+                            <span class="description-text">CLOSED ORDERS</span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-3 col-6">
+                        <div class="description-block border-right">
+                            <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i>
+                                20%</span>
+                            <h5 class="description-header" style="font-size: 60px;">34</h5>
+                            <span class="description-text">CANCELLED</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+    <div class="col-md-12"></div>
+</div>
+
+<div class="mt-5">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"></h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <div class="input-group-prepend">
+                                <!-- <button type="submit" class="btn btn-default" (click)="openModal(null)">
+                                    Add New product
+                                </button> -->
+                            </div>
+                            <input [(ngModel)]="filters.keyword" type="text" name="table_search"
+                                class="form-control float-right" placeholder="Search" (keyup.enter)="fetch()">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default" (click)="fetch()">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Product</th>
+                                <th>Producer</th>
+                                <th>Consumer</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let order of orders| paginate : { itemsPerPage: pagination.tableSize, currentPage: pagination.page, totalItems: pagination.count }; let i = index">
+                                <td>{{order.date_formatted}}</td>
+                                <td>
+                                    {{order.product.name}}
+                                </td>
+                                <td>{{order.seller ? order.seller.user.first_name + ' ' + order.seller.user.last_name :
+                                    ''}}</td>
+                                <td>{{order.user.first_name}} {{order.user.last_name}}</td>
+                                <td>{{order.status.name}}</td>
+                                <td>
+                                    <!-- <button class="btn btn-sm btn-default" (click)="openModal(product)">Edit</button> -->
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="100%">
+                                    <div class="d-flex flex-row-reverse" *ngIf="pagination.count>0">
+                                        <pagination-controls responsive="true" previousLabel="Prev" nextLabel="Next"
+                                            (pageChange)="onTableDataChange($event)"></pagination-controls>
+                                        <div>
+                                            <select (change)="onTableSizeChange($event)"
+                                                class="form-control form-control-sm">
+                                                <option *ngFor="let size of tableSizes" [ngValue]="size">
+                                                    {{ size }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modals -->
+<div class="modal fade" id="employee" tabindex="-1" role="dialog" aria-labelledby="employeeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="nav-wrapper">
+                    <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link mb-sm-3 mb-md-0 active" id="tab-personal-information" data-toggle="tab"
+                                href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1"
+                                aria-selected="true"><i class="ni ni-single-02 mr-2"></i>Personal Information</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-sm-3 mb-md-0" id="tab-company-information" data-toggle="tab"
+                                href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2"
+                                aria-selected="false"><i class="ni ni-badge mr-2"></i>Company Information</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link mb-sm-3 mb-md-0" id="tab-leave-information" data-toggle="tab"
+                                href="#tabs-icons-text-3" role="tab" aria-controls="tabs-icons-text-3"
+                                aria-selected="false"><i class="ni ni-calendar-grid-58 mr-2"></i>Leave Information</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tabs-icons-text-1" role="tabpanel"
+                                aria-labelledby="tab-personal-information">
+                                <form>
+
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-icons-text-2" role="tabpanel"
+                                aria-labelledby="tab-company-information">
+                                <p class="description">Cosby sweater eu banh mi, qui irure terry richardson ex squid.
+                                    Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel,
+                                    butcher voluptate nisi qui.</p>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-icons-text-3" role="tabpanel"
+                                aria-labelledby="tab-leave-information">
+                                <p class="description">Raw denim you probably haven't heard of them jean shorts Austin.
+                                    Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor,
+                                    williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                                    dreamcatcher synth.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

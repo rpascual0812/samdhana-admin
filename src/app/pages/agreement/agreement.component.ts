@@ -88,6 +88,7 @@ export class AgreementComponent implements OnInit {
         // console.log(disclaimer, legal, terms);
         // console.log(this.form.invalid);
         if (this.form.invalid) {
+            this.toastr.error('Please complete the form.', 'ERROR!');
             return;
         }
 
@@ -97,11 +98,11 @@ export class AgreementComponent implements OnInit {
             .save(this.form.value)
             .subscribe({
                 next: (data: any) => {
-                    this.toastr.success('The user has been successfully updated', 'SUCCESS!');
+                    this.toastr.success('The user agreement has been successfully updated', 'SUCCESS!');
                 },
                 error: (error: any) => {
                     console.log(error);
-                    this.toastr.error('An error occurred while updating the user. Please try again', 'ERROR!');
+                    this.toastr.error('An error occurred while updating the user agreement. Please try again', 'ERROR!');
                     setTimeout(() => { this.loading = false; }, 500);
                 },
                 complete: () => {
