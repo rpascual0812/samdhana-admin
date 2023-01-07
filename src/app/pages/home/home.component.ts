@@ -61,6 +61,12 @@ export class HomeComponent implements OnInit {
         ]
     };
 
+    total = {
+        orders: 0,
+        closed: 0,
+        cancelled: 0
+    }
+
     loading: boolean = false;
     orders: any = [];
     filters: any = {};
@@ -88,7 +94,67 @@ export class HomeComponent implements OnInit {
             take: this.pagination.tableSize
         };
 
+        this.totalOrders();
+        this.closedOrders();
+        this.cancelledOrders();
         this.fetch();
+    }
+
+    totalOrders() {
+        this.reportService
+            .totalOrders()
+            .subscribe({
+                next: (data: any) => {
+                    console.log('total order', data);
+                    this.total.orders = data.total;
+                },
+                error: (error: any) => {
+                    console.log(error);
+                    setTimeout(() => { this.loading = false; }, 500);
+                },
+                complete: () => {
+                    console.log('Complete');
+                    setTimeout(() => { this.loading = false; }, 500);
+                }
+            });
+    }
+
+    closedOrders() {
+        this.reportService
+            .closedOrders()
+            .subscribe({
+                next: (data: any) => {
+                    console.log('closed order', data);
+                    this.total.closed = data.total;
+                },
+                error: (error: any) => {
+                    console.log(error);
+                    setTimeout(() => { this.loading = false; }, 500);
+                },
+                complete: () => {
+                    console.log('Complete');
+                    setTimeout(() => { this.loading = false; }, 500);
+                }
+            });
+    }
+
+    cancelledOrders() {
+        this.reportService
+            .cancelledOrders()
+            .subscribe({
+                next: (data: any) => {
+                    console.log('cancelled order', data);
+                    this.total.cancelled = data.total;
+                },
+                error: (error: any) => {
+                    console.log(error);
+                    setTimeout(() => { this.loading = false; }, 500);
+                },
+                complete: () => {
+                    console.log('Complete');
+                    setTimeout(() => { this.loading = false; }, 500);
+                }
+            });
     }
 
     fetch() {
