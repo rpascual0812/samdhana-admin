@@ -40,7 +40,7 @@
                                     </div>
 
                                     <img class="direct-chat-img"
-                                        src="{{url}}/{{message.user.user_document.document.path}}"
+                                        src="{{url}}/{{message.user.user_document ? message.user.user_document.document.path : 'assets/images/support.png' }}"
                                         alt="Message User Image">
 
                                     <div class="direct-chat-text" [innerHTML]="message.message"></div>
