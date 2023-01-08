@@ -17,49 +17,9 @@ export class HomeComponent implements OnInit {
         maintainAspectRatio: true
     };
 
-    categories = {
-        labels: [
-            'Fruits',
-            'Livestocks',
-            'Native Handmade',
-            'Root Crops',
-            'Vegetables'
-        ],
-        datasets: [
-            {
-                label: 'My First Dataset',
-                data: [300, 50, 100, 68, 234],
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)',
-                    'rgb(52, 235, 131)',
-                    'rgb(201, 52, 235)',
-                ],
-                hoverOffset: 4
-            }
-        ]
-    };
-
-    statuses = {
-        labels: [
-            'Total',
-            'Closed',
-            'Cancelled'
-        ],
-        datasets: [
-            {
-                label: 'My First Dataset',
-                data: [300, 50, 100],
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)'
-                ],
-                hoverOffset: 4
-            }
-        ]
-    };
+    categories = {};
+    statuses = {};
+    ordersByCategories = [];
 
     total = {
         orders: 0,
@@ -94,19 +54,32 @@ export class HomeComponent implements OnInit {
             take: this.pagination.tableSize
         };
 
-        this.totalOrders();
-        this.closedOrders();
-        this.cancelledOrders();
+        this.ordersByCategory();
+        this.countOrders('total');
+        this.countOrders('closed');
+        this.countOrders('cancelled');
         this.fetch();
     }
 
-    totalOrders() {
+    countOrders(type: any) {
         this.reportService
-            .totalOrders()
+            .countOrders({ type })
             .subscribe({
                 next: (data: any) => {
-                    console.log('total order', data);
-                    this.total.orders = data.total;
+                    console.log(type, data);
+                    switch (type) {
+                        case 'closed':
+                            this.total.closed = data.total;
+                            break;
+                        case 'cancelled':
+                            this.total.cancelled = data.total;
+                            break;
+                        default:
+                            this.total.orders = data.total;
+                            break;
+                    }
+
+                    this.setStatusesChart();
                 },
                 error: (error: any) => {
                     console.log(error);
@@ -119,32 +92,14 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    closedOrders() {
+    ordersByCategory() {
         this.reportService
-            .closedOrders()
+            .ordersByCategory()
             .subscribe({
                 next: (data: any) => {
-                    console.log('closed order', data);
-                    this.total.closed = data.total;
-                },
-                error: (error: any) => {
-                    console.log(error);
-                    setTimeout(() => { this.loading = false; }, 500);
-                },
-                complete: () => {
-                    console.log('Complete');
-                    setTimeout(() => { this.loading = false; }, 500);
-                }
-            });
-    }
-
-    cancelledOrders() {
-        this.reportService
-            .cancelledOrders()
-            .subscribe({
-                next: (data: any) => {
-                    console.log('cancelled order', data);
-                    this.total.cancelled = data.total;
+                    console.log('categories chart', data);
+                    this.ordersByCategories = data;
+                    this.setCategoriesChart();
                 },
                 error: (error: any) => {
                     console.log(error);
@@ -194,6 +149,63 @@ export class HomeComponent implements OnInit {
         this.pagination.tableSize = event.target.value;
         this.pagination.page = 1;
         this.fetch();
+    }
+
+    setCategoriesChart() {
+        let labels = [],
+            data = [];
+
+        this.ordersByCategories.forEach(order => {
+            labels.push(order.name);
+            data.push(order.category_pk);
+        });
+
+        this.categories = {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'My First Dataset',
+                    data: data,
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)',
+                        'rgb(52, 235, 131)',
+                        'rgb(201, 52, 235)',
+                    ],
+                    hoverOffset: 4
+                }
+            ]
+        };
+    }
+
+    setStatusesChart() {
+        this.statuses = {
+            labels: [
+                'Total',
+                'Closed',
+                'Cancelled'
+            ],
+            datasets: [
+                {
+                    label: 'My First Dataset',
+                    data: [this.total.orders, this.total.closed, this.total.cancelled],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)',
+                        'rgb(255,0,0)',
+                        'rgb(255,140,0)',
+                        'rgb(154,205,50)',
+                        'rgb(0,128,0)',
+                        'rgb(127,255,212)',
+                        'rgb(0,0,205)',
+                        'rgb(186,85,211)',
+                    ],
+                    hoverOffset: 4
+                }
+            ]
+        };
     }
 
 }

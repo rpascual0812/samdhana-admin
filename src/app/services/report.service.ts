@@ -11,19 +11,15 @@ export class ReportService {
         public http: HttpClient,
     ) { }
 
-    totalOrders() {
-        return this.http.get(`${_.BASE_URL}/report/total_orders`);
-    }
-
-    closedOrders() {
-        return this.http.get(`${_.BASE_URL}/report/closed_orders`);
-    }
-
-    cancelledOrders() {
-        return this.http.get(`${_.BASE_URL}/report/cancelled_orders`);
+    countOrders(filters: any) {
+        return this.http.get(`${_.BASE_URL}/report/count_orders`, { params: filters });
     }
 
     fetchOrders(filters: any) {
         return this.http.get(`${_.BASE_URL}/report/orders`, { params: filters });
+    }
+
+    ordersByCategory() {
+        return this.http.get(`${_.BASE_URL}/report/count_orders_by_category`);
     }
 }
