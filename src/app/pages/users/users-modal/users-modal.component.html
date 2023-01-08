@@ -15,12 +15,13 @@
                     </div>
                     <div class="col-md-12">
                         <form [formGroup]="form" (ngSubmit)="submit()">
-                            <div class="form-group" *ngIf="false">
+                            <div class="form-group">
                                 <label for="example-email-input" class="form-control-label">Role</label>
                                 <select class="form-control">
-                                    <option value="{{role.pk}}" *ngFor="let role of roles; let i = index">
+                                    <option value="end-user">User</option>
+                                    <!-- <option value="{{role.pk}}" *ngFor="let role of roles; let i = index">
                                         {{role.name}}
-                                    </option>
+                                    </option> -->
                                 </select>
                                 <div *ngIf="submitted && f.email_address.errors" class="invalid-feedback">
                                     <div *ngIf="f.email_address.errors.required">Role is required</div>
@@ -148,16 +149,19 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" *ngIf="false">
+                            <div class="form-group">
                                 <div>
                                     <label for="example-email-input" class="form-control-label">Is Producer</label>
                                 </div>
                                 <div>
-                                    <ng-toggle (change)="isProducer=!isProducer" [value]="isProducer"
+                                    <!-- <ng-toggle (change)="isProducer=!isProducer" [value]="isProducer"
                                         [color]="{
                                                                                                                                 unchecked: '#939da2',
                                                                                                                                 checked: '#0b8a45'
-                                                                                                                              }"></ng-toggle>
+                                                                                                                              }"></ng-toggle> -->
+
+                                    <span class="badge {{isProducer ? 'bg-success' : 'bg-danger'}}">{{isProducer ?
+                                        'YES' : 'NO'}}</span>
                                 </div>
                             </div>
 
