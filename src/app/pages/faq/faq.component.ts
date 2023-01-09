@@ -38,7 +38,7 @@ export class FaqComponent implements OnInit {
         this.faqService.fetchAll(this.filters)
             .subscribe({
                 next: (data: any) => {
-                    console.log('faq', data.data);
+                    // console.log('faq', data.data);
                     this.faqs = data.data;
                 },
                 error: (error: any) => {

@@ -1,13 +1,27 @@
 :host {
     display: block;
+
 }
 
-.sidebar-dark-primary {
-    background: #1e2229;
+.main-sidebar {
+    color: #000 !important;
+}
+
+.sidebar-light-primary {
+    // background: #1e2229;
+    background: #ededed;
 }
 
 .logout_sidebar_button {
     width: 230px;
     position: absolute;
     bottom: 0;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    // background-color: #0A5028;
+    // color: #fff;
+    color: #0A5028;
+    background-color: #FFF;
 }

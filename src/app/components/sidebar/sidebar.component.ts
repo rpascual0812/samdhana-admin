@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from '@services/user.service';
 import * as _ from '../../utilities/globals';
 @Component({
@@ -12,10 +13,12 @@ export class SidebarComponent implements OnInit {
     public menu = MENU;
 
     constructor(
+        private router: Router,
         private userService: UserService
     ) { }
 
     ngOnInit() {
+        console.log(this.router.url);
         this.fetch();
     }
 
@@ -35,6 +38,11 @@ export class SidebarComponent implements OnInit {
             });
     }
 
+    setActive(type: any) {
+        if (this.router.url.includes(type)) {
+            return 'active';
+        }
+    }
 }
 
 export const MENU = [
