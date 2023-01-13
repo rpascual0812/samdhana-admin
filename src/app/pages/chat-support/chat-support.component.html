@@ -1,15 +1,115 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="error-template">
-                <h1>:) Oops!</h1>
-                <h2>Temporarily down for maintenance</h2>
-                <h1>Chat Support be back soon!</h1>
-                <div>
-                    <p>Sorry for the inconvenience but we're performing some maintenance at the moment. We'll be back
-                        online shortly!</p>
+<div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Chat Support</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+                        <li class="breadcrumb-item active">Chat Support</li>
+                    </ol>
                 </div>
             </div>
         </div>
+    </section>
+
+    <div class="row">
+        <div class="col-md-3">
+
+            <div class="card">
+                <div class="card-body p-0 chat-app">
+                    <div id="plist" class="people-list">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search...">
+                        </div>
+                        <ul class="list-unstyled chat-list mt-2 mb-0">
+                            <li class="clearfix {{user.active ? 'active' : ''}}" *ngFor="let user of users"
+                                (click)="setActiveChat(user)">
+                                <img src="{{url}}/{{user.chat_participant.user.user_document.document.path}}"
+                                    alt="avatar">
+                                <div class="about">
+                                    <div class="name">{{user.chat_participant.user.first_name}}
+                                        {{user.chat_participant.user.last_name}}</div>
+                                    <div class="status">
+                                        {{user.last_message}}
+                                        <span style="position: absolute; right: 5px;">{{user.date_formatted}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-9" *ngIf="!activeChat.hasOwnProperty('pk')">
+            <div class="card direct-chat direct-chat-primary">
+                <div class="card-body p-0" style="height: 600px;">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9" *ngIf="activeChat.hasOwnProperty('pk')">
+            <div class="card direct-chat direct-chat-primary">
+                <div class="card-header">
+                    <h3 class="card-title">{{activeChat && activeChat.chat_participant ?
+                        activeChat.chat_participant.user.first_name + ' ' + activeChat.chat_participant.user.last_name :
+                        ''}}</h3>
+                    <!-- <div class="card-tools">
+                        <div class="input-group input-group-sm">
+                            <input type="text" class="form-control" placeholder="Search messages">
+                            <div class="input-group-append">
+                                <div class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+
+                <div class="card-body p-0">
+                    <div #scrollable class="direct-chat-messages" style="height: 500px;" (scroll)="onScroll($event)">
+                        <div class="d-flex justify-content-center" *ngIf="loadingMessages">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="direct-chat-msg {{message.user.pk == user.pk ? 'right' : ''}}"
+                            *ngFor="let message of messages">
+                            <div class="direct-chat-infos clearfix">
+                                <span class="direct-chat-name float-left">{{message.user.first_name}}
+                                    {{message.user.last_name}}</span>
+                                <span class="direct-chat-timestamp float-right">{{message.date_formatted}}</span>
+                            </div>
+
+                            <img class="direct-chat-img"
+                                src="{{url}}/{{message.user && message.user.user_document ? message.user.user_document.document.path : 'assets/images/support.png'}}"
+                                alt="">
+
+                            <div class="direct-chat-text">
+                                {{message.message}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer p-0">
+                    <div class="input-group">
+                        <input type="text" name="message" placeholder="Type Message ..." class="form-control"
+                            [(ngModel)]="message">
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-primary" (click)="send()">Send</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </div>
