@@ -22,7 +22,8 @@
                 <div class="card-body p-0 chat-app">
                     <div id="plist" class="people-list">
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search...">
+                            <input [(ngModel)]="filters.keyword" type="text" class="form-control"
+                                placeholder="Search..." (keyup)="fetch()">
                         </div>
                         <ul class="list-unstyled chat-list mt-2 mb-0">
                             <li class="clearfix {{user.active ? 'active' : ''}}" *ngFor="let user of users"
@@ -101,7 +102,7 @@
                 <div class="card-footer p-0">
                     <div class="input-group">
                         <input type="text" name="message" placeholder="Type Message ..." class="form-control"
-                            [(ngModel)]="message">
+                            [(ngModel)]="message" (keyup.enter)="send()">
                         <span class="input-group-append">
                             <button type="button" class="btn btn-primary" (click)="send()">Send</button>
                         </span>
