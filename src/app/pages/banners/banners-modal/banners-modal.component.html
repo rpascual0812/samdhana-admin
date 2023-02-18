@@ -15,6 +15,9 @@
                                 <label for="example-email-input" class="form-control-label">Title</label>
                                 <input class="form-control" type="email" placeholder="Title" formControlName="title"
                                     [ngClass]="{ 'is-invalid': submitted && f.title.errors }">
+                                <span class="small {{form.get('title').value.length >= 18 ? 'text-danger' : ''}}">
+                                    Character count: <span class="">{{form.get('title').value.length}}</span>
+                                </span>
                                 <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
                                     <div *ngIf="f.title.errors.required">Title is required</div>
                                 </div>
@@ -24,7 +27,9 @@
                                 <label for="example-text-input" class="form-control-label">Description</label>
                                 <textarea class="form-control" rows="4" formControlName="details"
                                     [ngClass]="{ 'is-invalid': submitted && f.details.errors }"></textarea>
-
+                                <span class="small {{form.get('details').value.length >= 355 ? 'text-danger' : ''}}">
+                                    Character count: <span class="">{{form.get('details').value.length}}</span>
+                                </span>
                                 <div *ngIf="submitted && f.details.errors" class="invalid-feedback">
                                     <div *ngIf="f.details.errors.required">Description is required</div>
                                 </div>

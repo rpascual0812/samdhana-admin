@@ -72,8 +72,6 @@ export class NewsComponent implements OnInit {
                         // banner['background'] = background;
                     });
 
-                    console.log(this.articles);
-
                     this.pagination.count = data.total;
                 },
                 error: (error: any) => {
@@ -100,6 +98,11 @@ export class NewsComponent implements OnInit {
         this.bsModalRef = this.modalService.show(NewsModalComponent, initialState);
         this.bsModalRef.content.saveBtnName = 'Save';
         this.bsModalRef.content.closeBtnName = 'Close';
+
+        this.bsModalRef.content.callback.subscribe(res => {
+            const data = res.data.data;
+            this.fetch();
+        });
     }
 
     onTableDataChange(event: any) {

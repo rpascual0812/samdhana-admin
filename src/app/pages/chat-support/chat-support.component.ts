@@ -19,7 +19,7 @@ export class ChatSupportComponent implements OnInit {
     @ViewChild('scrollable') private myScrollContainer: ElementRef;
     @ViewChild('staticTabs', { static: false }) staticTabs?: TabsetComponent;
     bsModalRef?: BsModalRef;
-
+    
     realtime: any;
     channel: any;
 

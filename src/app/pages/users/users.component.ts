@@ -87,6 +87,18 @@ export class UsersComponent implements OnInit {
         this.bsModalRef = this.modalService.show(UsersModalComponent, initialState);
         this.bsModalRef.content.saveBtnName = 'Save';
         this.bsModalRef.content.closeBtnName = 'Close';
+
+        this.bsModalRef.content.callback.subscribe(res => {
+            const data = res.data.data;
+            this.fetch();
+            // this.users.forEach(user => {
+            //     if (user.pk == data.pk) {
+            //         user.first_name = data.first_name;
+            //         user.last_name = data.last_name;
+            //         user.last_name = data.last_name;
+            //     }
+            // });
+        });
     }
 
     onTableDataChange(event: any) {

@@ -31,6 +31,10 @@ export class ComplaintService {
         return this.http.get(`${_.BASE_URL}/complaints/${pk}/messages`);
     }
 
+    fetchMessage(complaint_pk: any, pk: any) {
+        return this.http.get(`${_.BASE_URL}/complaints/${complaint_pk}/messages/${pk}`);
+    }
+
     uploadPhoto(object: any) {
         return this.http.post(`${_.BASE_URL}/complaints/photo`, object);
     }

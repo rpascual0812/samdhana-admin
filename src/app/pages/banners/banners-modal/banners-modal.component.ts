@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { FormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -14,6 +14,7 @@ import { FileUploaderComponent } from '@components/file-uploader/file-uploader.c
     styleUrls: ['./banners-modal.component.scss']
 })
 export class BannersModalComponent implements OnInit {
+    public callback: EventEmitter<any> = new EventEmitter();
     loading: boolean = false;
     title?: string;
     saveBtnName?: string;
@@ -54,7 +55,6 @@ export class BannersModalComponent implements OnInit {
     }
 
     setForm() {
-        console.log('banner', this.banner);
         this.icon = this.banner ? this.banner.icon : {};
         this.background = this.banner ? this.banner.background : {};
         // this.banner.slider_document.forEach(slider => { 
@@ -89,6 +89,7 @@ export class BannersModalComponent implements OnInit {
             .save(this.form.value)
             .subscribe({
                 next: (data: any) => {
+                    this.callback.emit({ data });
                     this.toastr.success('The user has been successfully updated', 'SUCCESS!');
                 },
                 error: (error: any) => {

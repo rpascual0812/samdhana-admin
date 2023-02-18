@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AreaService } from '@services/area.service';
 import { CityService } from '@services/city.service';
@@ -18,6 +18,7 @@ import * as _ from '../../../utilities/globals';
     styleUrls: ['./users-modal.component.scss']
 })
 export class UsersModalComponent implements OnInit {
+    public callback: EventEmitter<any> = new EventEmitter();
     loading: boolean = false;
     title?: string;
     saveBtnName?: string;
@@ -94,13 +95,13 @@ export class UsersModalComponent implements OnInit {
         if (this.form.invalid) {
             return;
         }
-        console.log('valid');
 
         this.form.get('pk').patchValue(this.user.pk);
         this.userService
             .save(this.form.value)
             .subscribe({
                 next: (data: any) => {
+                    this.callback.emit({ data });
                     this.toastr.success('The user has been successfully updated', 'SUCCESS!');
                 },
                 error: (error: any) => {

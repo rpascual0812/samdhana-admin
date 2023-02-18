@@ -19,6 +19,10 @@ export class BannerService {
         return this.http.get(`${_.BASE_URL}/sliders`, { params: filters });
     }
 
+    rearrange(pks: any) {
+        return this.http.post(`${_.BASE_URL}/sliders/rearrange`, { pks });
+    }
+
     uploadPhoto(object: any) {
         return this.http.post(`${_.BASE_URL}/sliders/photo`, object);
     }

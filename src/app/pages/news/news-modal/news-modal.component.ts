@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { FormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
@@ -13,6 +13,7 @@ import { NewsService } from '@services/news.service';
     styleUrls: ['./news-modal.component.scss']
 })
 export class NewsModalComponent implements OnInit {
+    public callback: EventEmitter<any> = new EventEmitter();
     loading: boolean = false;
     title?: string;
     saveBtnName?: string;
@@ -86,7 +87,8 @@ export class NewsModalComponent implements OnInit {
             .save(this.form.value)
             .subscribe({
                 next: (data: any) => {
-                    this.toastr.success('The user has been successfully updated', 'SUCCESS!');
+                    this.callback.emit({ data });
+                    this.toastr.success('The news has been successfully updated', 'SUCCESS!');
                 },
                 error: (error: any) => {
                     console.log(error);

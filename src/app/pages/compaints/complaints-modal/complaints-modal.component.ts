@@ -3,6 +3,7 @@ import { FormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@a
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { DateTime } from 'luxon';
+import * as Ably from 'ably';
 
 import * as _ from '../../../utilities/globals';
 
@@ -21,6 +22,9 @@ export class ComplaintsModalComponent implements OnInit {
     @ViewChild('message') messageEditor: TexteditorComponent;
     @ViewChildren('messageList') messageList: QueryList<any>;
     @ViewChild('content') content: ElementRef;
+
+    realtime: any;
+    channel: any;
 
     loading: boolean = false;
     title?: string;
@@ -47,6 +51,8 @@ export class ComplaintsModalComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        this.initAbly();
+
         tinymce.init(
             {
                 height: "480",
@@ -74,6 +80,29 @@ export class ComplaintsModalComponent implements OnInit {
         } catch (err) { }
     }
 
+    async initAbly() {
+        console.log('init ably');
+        console.log('complaint-' + this.complaint.pk);
+        this.realtime = new Ably.Realtime.Promise('doWdpw.N7ThxA:oZEbqOjgtiGu_9xXAPMGgaIjahml6kKvzBCEgZqziW8');
+        await this.realtime.connection.once("connected");
+
+        this.channel = this.realtime.channels.get('complaint-' + this.complaint.pk);
+        await this.channel.subscribe((msg) => {
+            const data = msg.data;
+            console.log('complaint received ', data);
+            this.fetchMessage(data);
+            // this.fetch();
+        });
+
+        // let client = new Ably.Realtime({ key: 'doWdpw.N7ThxA:oZEbqOjgtiGu_9xXAPMGgaIjahml6kKvzBCEgZqziW8' });
+        // let channel = client.channels.get('user-' + this.activeChat.chat_participant.user.pk);
+        // channel.subscribe(this.activeChat.uuid, message => {
+        //     console.log(message);
+
+        //     this.changeDetector.detectChanges();
+        // })
+    }
+
     fetch() {
         this.complaintService
             .fetchMessages(this.complaint.pk)
@@ -83,7 +112,25 @@ export class ComplaintsModalComponent implements OnInit {
                     this.messages.forEach(message => {
                         message.date_formatted = DateTime.fromISO(message.date_created).toFormat('LLLL dd, yyyy hh:mm:ss a');
                     });
+                    console.log(this.messages);
+                },
+                error: (error: any) => {
+                    console.log(error);
+                    setTimeout(() => { this.loading = false; }, 500);
+                },
+                complete: () => {
+                    console.log('Complete');
+                    setTimeout(() => { this.loading = false; }, 500);
+                }
+            });
+    }
 
+    fetchMessage(data: any) {
+        this.complaintService
+            .fetchMessage(this.complaint.pk, data.pk)
+            .subscribe({
+                next: (data: any) => {
+                    this.messages.push(data);
                 },
                 error: (error: any) => {
                     console.log(error);
@@ -108,6 +155,7 @@ export class ComplaintsModalComponent implements OnInit {
                 next: (data: any) => {
                     this.toastr.success('Message sent', 'SUCCESS!');
                     this.messageEditor.reset();
+                    this.publishMessage(data);
                     this.fetch();
                 },
                 error: (error: any) => {
@@ -120,6 +168,15 @@ export class ComplaintsModalComponent implements OnInit {
                     setTimeout(() => { this.loading = false; }, 500);
                 }
             });
+    }
+
+    async publishMessage(data) {
+        const realtime = new Ably.Realtime.Promise('doWdpw.N7ThxA:oZEbqOjgtiGu_9xXAPMGgaIjahml6kKvzBCEgZqziW8');
+        await realtime.connection.once("connected");
+        // console.log('publish message', this.activeChat.uuid);
+        const channel = realtime.channels.get('complaint-' + this.complaint.pk);
+        // await this.realtime.connection.once("connected");
+        await channel.publish('complaint-' + this.complaint.pk, data.data);
     }
 
     updateStatus(status) {
