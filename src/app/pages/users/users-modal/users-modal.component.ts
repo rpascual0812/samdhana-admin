@@ -23,6 +23,7 @@ export class UsersModalComponent implements OnInit {
     title?: string;
     saveBtnName?: string;
     closeBtnName?: string;
+    activateBtnName?: string;
     user: any = {};
     genders: any = [];
     roles: any = [];
@@ -81,6 +82,7 @@ export class UsersModalComponent implements OnInit {
             city: [this.user.user_address.city.city_code, Validators.required],
             area: [this.user.user_address.area.pk, Validators.required],
             address_details: [this.user.user_address.address, Validators.required],
+            archived: [false]
         });
     }
 
@@ -112,6 +114,37 @@ export class UsersModalComponent implements OnInit {
                 complete: () => {
                     console.log('Complete');
                     setTimeout(() => { this.loading = false; }, 500);
+                    this.bsModalRef.hide();
+                }
+            });
+    }
+
+    activate() {
+        this.loading = true;
+        this.submitted = true;
+
+        if (this.form.invalid) {
+            return;
+        }
+
+        this.form.get('pk').patchValue(this.user.pk);
+        this.form.get('archived').patchValue(!this.user.archived);
+        this.userService
+            .save(this.form.value)
+            .subscribe({
+                next: (data: any) => {
+                    this.callback.emit({ data });
+                    this.toastr.success('The user has been successfully updated', 'SUCCESS!');
+                },
+                error: (error: any) => {
+                    console.log(error);
+                    this.toastr.error('An error occurred while updating the user. Please try again', 'ERROR!');
+                    setTimeout(() => { this.loading = false; }, 500);
+                },
+                complete: () => {
+                    console.log('Complete');
+                    setTimeout(() => { this.loading = false; }, 500);
+                    this.bsModalRef.hide();
                 }
             });
     }

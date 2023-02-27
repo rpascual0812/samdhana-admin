@@ -37,6 +37,7 @@ export class UsersComponent implements OnInit {
     ngOnInit(): void {
         this.filters = {
             keyword: '',
+            archived: false,
             skip: 0,
             take: this.pagination.tableSize
         };
@@ -87,6 +88,7 @@ export class UsersComponent implements OnInit {
         this.bsModalRef = this.modalService.show(UsersModalComponent, initialState);
         this.bsModalRef.content.saveBtnName = 'Save';
         this.bsModalRef.content.closeBtnName = 'Close';
+        this.bsModalRef.content.activateBtnName = 'Activate';
 
         this.bsModalRef.content.callback.subscribe(res => {
             const data = res.data.data;

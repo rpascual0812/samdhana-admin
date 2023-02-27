@@ -171,7 +171,10 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="submit()">{{saveBtnName}}</button>
+                <button *ngIf="user.archived" type="button" class="btn btn-danger"
+                    (click)="activate()">{{activateBtnName}}</button>
+                <button *ngIf="!user.archived" type="button" class="btn btn-primary"
+                    (click)="submit()">{{saveBtnName}}</button>
                 <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
             </div>
         </div>
