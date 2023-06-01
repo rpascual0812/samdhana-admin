@@ -4,6 +4,7 @@ import { AgreementComponent } from '@pages/agreement/agreement.component';
 import { BannersComponent } from '@pages/banners/banners.component';
 import { ChatSupportComponent } from '@pages/chat-support/chat-support.component';
 import { CompaintsComponent } from '@pages/compaints/compaints.component';
+import { ConfigurationComponent } from '@pages/configuration/configuration.component';
 import { FaqComponent } from '@pages/faq/faq.component';
 import { FeedbackComponent } from '@pages/feedback/feedback.component';
 import { HomeComponent } from '@pages/home/home.component';
@@ -23,4 +24,5 @@ export const MainLayoutRoutes: Routes = [
     { path: 'complaints', component: CompaintsComponent, canActivate: [AuthGuard] },
     { path: 'faq', component: FaqComponent, canActivate: [AuthGuard] },
     { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+    { path: 'configuration', component: ConfigurationComponent, canActivate: [AuthGuard] },
 ];

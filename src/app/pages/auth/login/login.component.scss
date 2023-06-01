@@ -1,10 +1,10 @@
 .login-page {
-    background: rgb(2,0,36);
-    background: linear-gradient(50deg, rgba(2,0,36,1) -100%, rgb(5, 5, 182) -15%, rgba(0,212,255,1) 80%);
+    background: rgb(2, 0, 36);
+    background: linear-gradient(50deg, rgba(2, 0, 36, 1) -100%, rgb(10, 80, 40) -15%, rgb(11, 138, 69) 80%);
     // background: rgb(2,0,36);
     // background: linear-gradient(50deg, rgba(2,0,36,1) -100%, rgba(9,68,121,1) -15%, rgba(132,231,251,1) 100%);
 
-    
+
 }
 
 .login-page.snow-page {
@@ -26,7 +26,7 @@
     // background-color:rgba(39, 36, 36, 0.1);
     padding: 60px 40px 60px 40px;
     border-radius: 15px;
-    border-color:#d2d2d2;
+    border-color: #d2d2d2;
     border-width: 5px;
 }
 
@@ -34,44 +34,46 @@
     border: 0px;
 }
 
-.footer {   
-   position:fixed;
-   bottom:0%;
-   height:30px;
-   width:100%;
+.footer {
+    position: fixed;
+    bottom: 0%;
+    height: 30px;
+    width: 100%;
 }
+
 .footer p {
     text-align: center;
 }
 
 @function random_range($min, $max) {
-  $rand: random();
-  $random_range: $min + floor($rand * (($max - $min) + 1));
-  @return $random_range;
+    $rand: random();
+    $random_range: $min +floor($rand * (($max - $min) + 1));
+    @return $random_range;
 }
 
 
 
-$d: 10;      // density
-$w: 600;     // grid size
-$s: 10s;       // speed
+$d: 10; // density
+$w: 600; // grid size
+$s: 10s; // speed
 // Generate the snow image using radial gradients
-$grad: ();
+$grad: (
+);
+
 @for $i from 0 to $d {
-  $v: random(4) + 2;
-  $a: random(5) * .1 + .5;
-  $grad: $grad, radial-gradient(
-      $v+px $v+px at
-      (random($w - $v * 2) + $v)+px
-      (random($w - $v * 2) + $v)+px, 
-      rgba(255,255,255,$a) 50%,
-      rgba(0,0,0,0)
-  ) !global;
+    $v: random(4)+2;
+    $a: random(5) * .1+.5;
+    $grad: $grad,
+    radial-gradient($v+px $v+px at (random($w - $v * 2) + $v)+px (random($w - $v * 2) + $v)+px,
+        rgba(255, 255, 255, $a) 50%,
+        rgba(0, 0, 0, 0)) !global;
 }
 
 // The CSS
 
-.snow-page>.snow, .snow-page>.snow:before, .snow-page>.snow:after {
+.snow-page>.snow,
+.snow-page>.snow:before,
+.snow-page>.snow:after {
     position: absolute;
     top: -$w + px;
     left: 0;
@@ -82,8 +84,9 @@ $grad: ();
     animation: snow $s linear infinite;
     content: "";
 }
+
 .snow-page>.snow:after {
-    margin-left: calc(-#{$w}/3) + px;
+    margin-left: calc(-#{$w}/3)+px;
     opacity: .4;
     animation-duration: $s*2;
     animation-direction: reverse;
@@ -93,13 +96,15 @@ $grad: ();
     $fall-delay: random(30) * -1s;
     animation: $fall-duration $fall-delay linear infinite;
 }
+
 .snow-page>.snow:before {
     animation-duration: $s*3;
     animation-direction: reverse;
-    margin-left: calc(-#{$w}/2) + px;
+    margin-left: calc(-#{$w}/2)+px;
     opacity: .65;
     filter: blur(1.5px);
 }
+
 @keyframes snow {
     to {
         transform: translateY($w + px);

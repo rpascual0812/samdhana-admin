@@ -11,11 +11,19 @@ export class ProvinceService {
         public http: HttpClient,
     ) { }
 
-    fetchAll(pagination: any) {
-        return this.http.get(`${_.BASE_URL}/provinces`);
+    fetchAll(filters: any) {
+        return this.http.get(`${_.BASE_URL}/provinces`, { params: filters });
     }
 
     fetch(data: any) {
         return this.http.get(`${_.BASE_URL}/provinces`);
+    }
+
+    save(province: any) {
+        return this.http.post(`${_.BASE_URL}/provinces/update`, province);
+    }
+
+    delete(province: any) {
+        return this.http.delete(`${_.BASE_URL}/provinces/${province.province_code}`, province);
     }
 }

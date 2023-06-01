@@ -1,0 +1,49 @@
+<div>
+    <div class="modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{title}}</h4>
+                <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <form [formGroup]="form" (ngSubmit)="submit()">
+
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Province Code</label>
+                                <input class="form-control" type="text" placeholder="Province Code"
+                                    formControlName="province_code"
+                                    [ngClass]="{ 'is-invalid': submitted && f.province_code.errors }">
+                                <div *ngIf="submitted && f.province_code.errors" class="invalid-feedback">
+                                    <div *ngIf="f.province_code.errors.required">Province Code is required</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Name</label>
+                                <input class="form-control" type="text" placeholder="Name" formControlName="name"
+                                    [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                    <div *ngIf="f.name.errors.required">Name is required</div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button *ngIf="!province.archived" type="button" class="btn btn-danger float-left"
+                    (click)="delete()">Delete</button>
+                <div>
+                    <button *ngIf="!province.archived" type="button" class="btn btn-primary mr-2"
+                        (click)="submit()">{{saveBtnName}}</button>
+                    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <!-- <button type="button" class="btn btn-default btn-sm">Add New</button> -->
+                <h3 class="card-title"></h3>
+                <div class="card-tools">
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-prepend" style="width: 150px;">
+                            <input class="form-check-input" type="checkbox" id="deleted" [(ngModel)]="filters.archived"
+                                (change)="fetch()"> <label for="deleted">Show archived</label>
+                        </div>
+                        <input [(ngModel)]="filters.keyword" type="text" name="table_search"
+                            class="form-control float-right" placeholder="Search" (keyup.enter)="fetch()">
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-default" (click)="fetch()">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Archived?</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let province of provinces| paginate : { itemsPerPage: pagination.tableSize, currentPage: pagination.page, totalItems: pagination.count }; let i = index">
+                            <td></td>
+                            <td>{{province.province_code}}</td>
+                            <td>{{province.name}}</td>
+                            <td>
+                                <span class="badge {{province.archived ? 'bg-danger' : 'bg-success'}}">{{
+                                    province.archived ? 'Yes' : 'No' }}</span>
+                            </td>
+                            <td style="width: 100px;">
+                                <button type="button" class="btn btn-sm btn-default mr-2"
+                                    (click)="openModal(province)">Edit</button>
+                                <button type="button" class="btn btn-sm btn-danger"
+                                    (click)="delete(province)">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="100%">
+                                <div class="d-flex flex-row-reverse" *ngIf="pagination.count>0">
+                                    <pagination-controls responsive="true" previousLabel="Prev" nextLabel="Next"
+                                        (pageChange)="onTableDataChange($event)"></pagination-controls>
+                                    <div>
+                                        <select (change)="onTableSizeChange($event)"
+                                            class="form-control form-control-sm">
+                                            <option *ngFor="let size of tableSizes" [ngValue]="size">
+                                                {{ size }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>

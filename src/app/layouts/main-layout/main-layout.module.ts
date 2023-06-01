@@ -18,6 +18,7 @@ import { CompaintsModule } from '@pages/compaints/compaints.module';
 import { FeedbackModule } from '@pages/feedback/feedback.module';
 import { HomeModule } from '@pages/home/home.module';
 import { ChatSupportModule } from '@pages/chat-support/chat-support.module';
+import { ConfigurationModule } from '@pages/configuration/configuration.module';
 
 @NgModule({
     imports: [
@@ -35,6 +36,7 @@ import { ChatSupportModule } from '@pages/chat-support/chat-support.module';
         FaqModule,
         CompaintsModule,
         ChatSupportModule,
+        ConfigurationModule,
         FeedbackModule,
         TabsModule.forRoot()
     ],
