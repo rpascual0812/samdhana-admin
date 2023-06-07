@@ -127,7 +127,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="example-email-input" class="form-control-label">Area</label>
-                                        <select class="form-control">
+                                        <select class="form-control" formControlName="area">
                                             <option value="{{area.pk}}" *ngFor="let area of areas; let i = index">
                                                 {{area.name}}
                                             </option>
