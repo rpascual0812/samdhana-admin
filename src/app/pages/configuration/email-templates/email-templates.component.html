@@ -1,0 +1,21 @@
+<div>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Welcome Email</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <app-texteditor #welcome [conditions]="{ showUploader: false }" [content]="templates.welcome_email">
+        </app-texteditor>
+
+        <div class="row mt-5">
+            <div class="col-md-12 text-right">
+                <button class="btn btn-md btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

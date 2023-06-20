@@ -73,10 +73,11 @@ export class TexteditorComponent implements OnInit, AfterViewInit {
             plugins: [
                 'advlist autolink lists link image charmap print preview anchor',
                 'searchreplace visualblocks code fullscreen',
-                'insertdatetime media table paste code help wordcount'
+                'insertdatetime media table paste code help wordcount',
+                'advcode'
             ],
             toolbar:
-                'undo redo | formatselect | bold italic forecolor backcolor |' +
+                'code undo redo | formatselect | bold italic forecolor backcolor |' +
                 'alignleft aligncenter alignright alignjustify | ' +
                 'bullist numlist outdent indent | link ' + (this.conditions.showUploader ? 'fileuploader' : '') + ' | removeformat | fullscreen help',
             setup: (editor) => {

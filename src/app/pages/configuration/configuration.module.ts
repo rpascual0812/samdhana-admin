@@ -5,6 +5,7 @@ import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { ProvinceModule } from './province/province.module';
 import { CityModule } from './city/city.module';
 import { AreaModule } from './area/area.module';
+import { EmailTemplatesModule } from './email-templates/email-templates.module';
 
 @NgModule({
     declarations: [
@@ -14,7 +15,8 @@ import { AreaModule } from './area/area.module';
         AccordionModule.forRoot(),
         ProvinceModule,
         CityModule,
-        AreaModule
+        AreaModule,
+        EmailTemplatesModule
     ]
 })
 export class ConfigurationModule { }

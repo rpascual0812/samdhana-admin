@@ -50,6 +50,7 @@
         "ngx-pagination": "^6.0.3",
         "ngx-sortable": "^2.1.0",
         "ngx-toastr": "^14.2.1",
+        "npm": "^9.5.0",
         "popper.js": "^1.16.1",
         "process": "0.11.10",
         "rxjs": "6.6.7",

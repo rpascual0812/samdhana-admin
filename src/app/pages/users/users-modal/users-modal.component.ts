@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { formatDate } from '@angular/common';
 import { AreaService } from '@services/area.service';
 import { CityService } from '@services/city.service';
 import { GenderService } from '@services/gender.service';
@@ -67,8 +68,10 @@ export class UsersModalComponent implements OnInit {
     }
 
     setEmployeeForm() {
+        this.user.birthdate = new Date(this.user.birthdate);
         this.profilePicture = this.user ? this.url + '/' + this.user.user_document.document.path : this.profilePicture;
         this.isProducer = this.user ? this.user.is_seller : false;
+
         this.form = this.formBuilder.group({
             pk: [''],
             first_name: [this.user ? this.user.first_name : '', Validators.required],
@@ -76,7 +79,7 @@ export class UsersModalComponent implements OnInit {
             // middle_name: [this.user ? this.user.middle_name : '', Validators.required],
             mobile: [this.user ? this.user.mobile_number : '', Validators.required],
             email_address: [this.user ? this.user.email_address : '', Validators.required],
-            birthdate: [this.user ? this.user.birthdate : '', Validators.required],
+            birthdate: [this.user ? new Date(this.user.birthdate) : '', Validators.required],
             gender: [this.user ? this.user.gender_pk : '', Validators.required],
             province: [this.user.user_address.province.province_code, Validators.required],
             city: [this.user.user_address.city.city_code, Validators.required],
@@ -98,7 +101,10 @@ export class UsersModalComponent implements OnInit {
             return;
         }
 
+        let formattedDate = formatDate(this.form.value.birthdate, 'yyyy-MM-dd', "en-US");
+        this.form.get('birthdate').patchValue(formattedDate);
         this.form.get('pk').patchValue(this.user.pk);
+
         this.userService
             .save(this.form.value)
             .subscribe({
@@ -258,5 +264,11 @@ export class UsersModalComponent implements OnInit {
         this.getAreas();
     }
 
-
+    dateChanged(date: any) {
+        let formattedDate = formatDate(date, 'yyyy-MM-dd', "en-US");
+        console.log('date', date, formattedDate);
+        this.form.get('birthdate').patchValue(formattedDate);
+        return false;
+        // this.form.patchValue({ birthdate: formattedDate });
+    }
 }

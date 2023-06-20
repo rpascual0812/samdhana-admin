@@ -92,10 +92,8 @@ export class AgreementComponent implements OnInit {
             return;
         }
 
-        console.log('submitting');
-
         this.configurationService
-            .save(this.form.value)
+            .save({ group: 'agreement', data: this.form.value })
             .subscribe({
                 next: (data: any) => {
                     this.toastr.success('The user agreement has been successfully updated', 'SUCCESS!');

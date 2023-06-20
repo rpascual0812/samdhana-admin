@@ -9,6 +9,7 @@ import * as _ from '../../../utilities/globals';
 
 import { TexteditorComponent } from '@components/texteditor/texteditor.component';
 import { ComplaintService } from '@services/complaint.service';
+import { UserService } from '@services/user.service';
 
 declare var tinymce: any;
 
@@ -31,6 +32,8 @@ export class ComplaintsModalComponent implements OnInit {
     saveBtnName?: string;
     closeBtnName?: string;
 
+    user: any = {};
+
     complaint: any = {};
     filters: any = {};
     messages: any = [];
@@ -47,7 +50,8 @@ export class ComplaintsModalComponent implements OnInit {
         public documentUploaderRef: BsModalRef,
         private modalService: BsModalService,
         private cdr: ChangeDetectorRef,
-        private complaintService: ComplaintService
+        private complaintService: ComplaintService,
+        private userService: UserService
     ) { }
 
     ngOnInit(): void {
@@ -67,6 +71,7 @@ export class ComplaintsModalComponent implements OnInit {
         };
 
         this.fetch();
+        this.profile();
     }
 
     ngAfterViewInit() {
@@ -81,15 +86,15 @@ export class ComplaintsModalComponent implements OnInit {
     }
 
     async initAbly() {
-        console.log('init ably');
-        console.log('complaint-' + this.complaint.pk);
+        // console.log('init ably');
+        // console.log('complaint-' + this.complaint.pk);
         this.realtime = new Ably.Realtime.Promise('doWdpw.N7ThxA:oZEbqOjgtiGu_9xXAPMGgaIjahml6kKvzBCEgZqziW8');
         await this.realtime.connection.once("connected");
 
         this.channel = this.realtime.channels.get('complaint-' + this.complaint.pk);
         await this.channel.subscribe((msg) => {
             const data = msg.data;
-            console.log('complaint received ', data);
+            // console.log('complaint received ', data);
             this.fetchMessage(data);
             // this.fetch();
         });
@@ -112,7 +117,7 @@ export class ComplaintsModalComponent implements OnInit {
                     this.messages.forEach(message => {
                         message.date_formatted = DateTime.fromISO(message.date_created).toFormat('LLLL dd, yyyy hh:mm:ss a');
                     });
-                    console.log(this.messages);
+                    console.log('messages', this.messages);
                 },
                 error: (error: any) => {
                     console.log(error);
@@ -126,10 +131,12 @@ export class ComplaintsModalComponent implements OnInit {
     }
 
     fetchMessage(data: any) {
+        console.log('fetched message', data);
         this.complaintService
             .fetchMessage(this.complaint.pk, data.pk)
             .subscribe({
                 next: (data: any) => {
+                    data.self = this.user.pk == data.user_pk ? true : false;
                     this.messages.push(data);
                 },
                 error: (error: any) => {
@@ -156,7 +163,7 @@ export class ComplaintsModalComponent implements OnInit {
                     this.toastr.success('Message sent', 'SUCCESS!');
                     this.messageEditor.reset();
                     this.publishMessage(data);
-                    this.fetch();
+                    // this.fetch();
                 },
                 error: (error: any) => {
                     console.log(error);
@@ -190,6 +197,25 @@ export class ComplaintsModalComponent implements OnInit {
                 error: (error: any) => {
                     console.log(error);
                     this.toastr.error('An error occurred while updating the complaint. Please try again', 'ERROR!');
+                    setTimeout(() => { this.loading = false; }, 500);
+                },
+                complete: () => {
+                    console.log('Complete');
+                    setTimeout(() => { this.loading = false; }, 500);
+                }
+            });
+    }
+
+    profile() {
+        this.userService
+            .fetch()
+            .subscribe({
+                next: (data: any) => {
+                    this.user = data;
+                    console.log('user', data);
+                },
+                error: (error: any) => {
+                    console.log(error);
                     setTimeout(() => { this.loading = false; }, 500);
                 },
                 complete: () => {
