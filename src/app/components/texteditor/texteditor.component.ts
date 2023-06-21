@@ -19,6 +19,8 @@ export class TexteditorComponent implements OnInit, AfterViewInit {
     @Input() content: any = '';
     @Input() height: any = 500;
 
+    @Input() variables: any = [];
+
     tinymceInit: any;
     source: any;
     documentModalRef?: BsModalRef;
@@ -74,12 +76,11 @@ export class TexteditorComponent implements OnInit, AfterViewInit {
                 'advlist autolink lists link image charmap print preview anchor',
                 'searchreplace visualblocks code fullscreen',
                 'insertdatetime media table paste code help wordcount',
-                'advcode'
             ],
             toolbar:
                 'code undo redo | formatselect | bold italic forecolor backcolor |' +
                 'alignleft aligncenter alignright alignjustify | ' +
-                'bullist numlist outdent indent | link ' + (this.conditions.showUploader ? 'fileuploader' : '') + ' | removeformat | fullscreen help',
+                'bullist numlist outdent indent | link ' + (this.conditions.showUploader ? 'fileuploader' : '') + ' | removeformat | fullscreen ' + (this.variables && this.variables.length > 0 ? 'variables' : '') + ' help',
             setup: (editor) => {
                 this.editor = editor;
                 const buttonAction = () => {
@@ -90,8 +91,26 @@ export class TexteditorComponent implements OnInit, AfterViewInit {
                 editor.ui.registry.addButton('fileuploader', {
                     icon: 'gallery',
                     tooltip: "Insert image from documents",
-                    onAction: function () {
+                    onAction: () => {
                         buttonAction();
+                    }
+                });
+
+                editor.ui.registry.addMenuButton('variables', {
+                    icon: 'code-sample',
+                    fetch: (callback) => {
+                        let items = [];
+                        this.variables.forEach(v => {
+                            items.push({
+                                type: 'menuitem',
+                                text: v,
+                                onAction: () => {
+                                    editor.insertContent('&nbsp;{' + v + '}');
+                                }
+                            });
+                        });
+
+                        callback(items);
                     }
                 });
             }

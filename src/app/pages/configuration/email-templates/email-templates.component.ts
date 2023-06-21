@@ -22,6 +22,8 @@ export class EmailTemplatesComponent implements OnInit {
         welcome_email: ''
     }
 
+    variables = ['first_name', 'middle_name', 'last_name'];
+
     constructor(
         private formBuilder: FormBuilder,
         private configurationService: ConfigurationService,
@@ -34,7 +36,6 @@ export class EmailTemplatesComponent implements OnInit {
                 selector: "#welcome",
             }
         );
-
         this.setForm();
     }
 
@@ -47,6 +48,7 @@ export class EmailTemplatesComponent implements OnInit {
     get f() { return this.form.controls; }
 
     submit() {
+
         const welcome = this.welcomeEditor.returnMessage();
         this.form.get('welcome_email').patchValue(welcome);
 
