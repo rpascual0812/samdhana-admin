@@ -6,6 +6,7 @@ import { ProvinceModule } from './province/province.module';
 import { CityModule } from './city/city.module';
 import { AreaModule } from './area/area.module';
 import { EmailTemplatesModule } from './email-templates/email-templates.module';
+import { OnboardingModule } from './onboarding/onboarding.module';
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import { EmailTemplatesModule } from './email-templates/email-templates.module';
         ProvinceModule,
         CityModule,
         AreaModule,
-        EmailTemplatesModule
+        EmailTemplatesModule,
+        OnboardingModule
     ]
 })
 export class ConfigurationModule { }

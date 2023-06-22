@@ -19,6 +19,7 @@ export class EmailTemplatesComponent implements OnInit {
     submitted: boolean = false;
 
     templates = {
+        welcome_subject: '',
         welcome_email: ''
     }
 
@@ -37,12 +38,34 @@ export class EmailTemplatesComponent implements OnInit {
             }
         );
         this.setForm();
+        this.fetch();
     }
 
     setForm() {
         this.form = this.formBuilder.group({
+            welcome_subject: [this.templates.welcome_subject ? this.templates.welcome_subject : '', Validators.required],
             welcome_email: [this.templates.welcome_email ? this.templates.welcome_email : '', Validators.required],
         });
+    }
+
+    fetch() {
+        this.configurationService.fetchAll({ 'group': 'email_templates' })
+            .subscribe({
+                next: (data: any) => {
+                    data.data.forEach((template) => {
+                        this.templates[template.name] = template.value;
+                    });
+                    this.form.get('welcome_subject').patchValue(this.templates['welcome_subject']);
+                },
+                error: (error: any) => {
+                    console.log(error);
+                    setTimeout(() => { this.loading = false; }, 500);
+                },
+                complete: () => {
+                    console.log('Complete');
+                    setTimeout(() => { this.loading = false; }, 500);
+                }
+            });
     }
 
     get f() { return this.form.controls; }

@@ -1,0 +1,106 @@
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title"></h3>
+                    <div class="card-tools">
+                        <div class="input-group input-group-sm" style="width: 450px;">
+                            <div class="input-group-prepend">
+                                <button type="button" class="btn btn-default" (click)="openModal(null)">
+                                    Add New
+                                </button>
+                            </div>
+                            <input [(ngModel)]="filters.keyword" type="text" name="table_search"
+                                class="form-control float-right" placeholder="Search" (keyup.enter)="fetch()">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-default" (click)="fetch()">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Image</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Owner</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr
+                                *ngFor="let onboarding of onboardings | paginate : { itemsPerPage: pagination.tableSize, currentPage: pagination.page, totalItems: pagination.count }; let i = index"> -->
+                            <tr *ngFor="let onboarding of onboardings; let i = index">
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            {{i + 1}}
+                                        </div>
+                                        <div class="col-md-10">
+                                            <i *ngIf="onboarding.queue != 1" class="fa fa-arrow-up"
+                                                style="cursor: pointer; color: grey;" title="Move Up"></i>
+                                            <i *ngIf="onboarding.queue != onboardings.length"
+                                                class="fa fa-arrow-down ml-2" style="cursor: pointer; color: grey;"
+                                                title="Move Down"></i>
+                                        </div>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <img style="height: 50px;"
+                                        src="{{url}}/{{onboarding['onboarding_document']['document']['path']}}" alt="">
+                                </td>
+                                <td>{{onboarding.title}}</td>
+                                <td class="text-wrap text-justify" style="max-width: 200px;">
+                                    {{onboarding.description}}
+                                </td>
+                                <td>
+                                    <div>
+                                        {{onboarding.user.first_name}} {{onboarding.user.last_name}}
+                                    </div>
+                                    <div>
+                                        {{onboarding.date_formatted}}
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-default"
+                                        (click)="openModal(onboarding)">Edit</button>
+                                    <button type="button" class="btn btn-sm btn-danger ml-1" (click)="delete(i)">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <!-- <tfoot>
+                            <tr>
+                                <td colspan="100%">
+                                    <div class="d-flex flex-row-reverse" *ngIf="pagination.count>0">
+                                        <pagination-controls responsive="true" previousLabel="Prev" nextLabel="Next"
+                                            (pageChange)="onTableDataChange($event)"></pagination-controls>
+                                        <div>
+                                            <select (change)="onTableSizeChange($event)"
+                                                class="form-control form-control-sm">
+                                                <option *ngFor="let size of tableSizes" [ngValue]="size">
+                                                    {{ size }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot> -->
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

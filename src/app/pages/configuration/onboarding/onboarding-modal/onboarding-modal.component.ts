@@ -3,16 +3,16 @@ import { FormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@a
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 
-import * as _ from '../../../utilities/globals';
+import * as _ from '../../../../utilities/globals';
+import { OnboardingService } from '@services/onboarding.service';
 import { FileUploaderComponent } from '@components/file-uploader/file-uploader.component';
-import { NewsService } from '@services/news.service';
 
 @Component({
-    selector: 'app-news-modal',
-    templateUrl: './news-modal.component.html',
-    styleUrls: ['./news-modal.component.scss']
+    selector: 'app-onboarding-modal',
+    templateUrl: './onboarding-modal.component.html',
+    styleUrls: ['./onboarding-modal.component.scss']
 })
-export class NewsModalComponent implements OnInit {
+export class OnboardingModalComponent implements OnInit {
     public callback: EventEmitter<any> = new EventEmitter();
     loading: boolean = false;
     title?: string;
@@ -20,7 +20,7 @@ export class NewsModalComponent implements OnInit {
     closeBtnName?: string;
 
     type: any = ['home'];
-    article: any = {};
+    onboarding: any = {};
     filters: any = {};
 
     url: String = _.BASE_URL;
@@ -32,7 +32,7 @@ export class NewsModalComponent implements OnInit {
     constructor(
         public bsModalRef: BsModalRef,
         private formBuilder: FormBuilder,
-        private newsService: NewsService,
+        private onboardingService: OnboardingService,
         private toastr: ToastrService,
         public documentUploaderRef: BsModalRef,
         private modalService: BsModalService,
@@ -46,15 +46,11 @@ export class NewsModalComponent implements OnInit {
             take: 10
         };
 
-        // this.icon = this.url + '/' + 'assets/images/user_.png';
-        // this.background = this.url + '/' + 'assets/images/no-image.jpg';
-
         this.setForm();
     }
 
     setForm() {
-        console.log('article', this.article);
-        this.image = this.article ? this.article.article_document : {};
+        this.image = this.onboarding ? this.onboarding.onboarding_document : {};
         // this.banner.slider_document.forEach(slider => { 
         //     if (slider.type == 'icon') {
 
@@ -63,9 +59,8 @@ export class NewsModalComponent implements OnInit {
 
         this.form = this.formBuilder.group({
             pk: [''],
-            title: [this.article ? this.article.title : '', Validators.required],
-            description: [this.article ? this.article.description : '', Validators.required],
-            url: [this.article ? this.article.url : '', Validators.required],
+            title: [this.onboarding ? this.onboarding.title : '', Validators.required],
+            description: [this.onboarding ? this.onboarding.description : '', Validators.required],
             image: [''],
         });
     }
@@ -82,8 +77,8 @@ export class NewsModalComponent implements OnInit {
             return;
         }
 
-        this.form.get('pk').patchValue(this.article ? this.article.pk : null);
-        this.newsService
+        this.form.get('pk').patchValue(this.onboarding ? this.onboarding.pk : null);
+        this.onboardingService
             .save(this.form.value)
             .subscribe({
                 next: (data: any) => {
@@ -106,8 +101,6 @@ export class NewsModalComponent implements OnInit {
     }
 
     uploadFiles() {
-        // console.log('icon', this.icon);
-        // console.log('background', this.background);
         const initialState: ModalOptions = {
             class: 'modal-lg'
         };

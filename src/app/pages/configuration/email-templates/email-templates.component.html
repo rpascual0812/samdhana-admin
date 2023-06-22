@@ -9,6 +9,12 @@
         </div>
     </section>
     <form [formGroup]="form" (ngSubmit)="submit()">
+        <input type="text" class="form-control" placeholder="Subject" formControlName="welcome_subject"
+            [class]="{ 'is-invalid': f.welcome_subject.errors && (f.welcome_subject.dirty || f.welcome_subject.touched) }">
+        <div *ngIf="f.welcome_subject.errors" class="invalid-feedback">
+            <div *ngIf="f.welcome_subject.errors.required">Subject is required</div>
+        </div>
+        <br>
         <app-texteditor #welcome [conditions]="{ showUploader: false }" [variables]="variables"
             [content]="templates.welcome_email">
         </app-texteditor>
