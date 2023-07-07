@@ -80,12 +80,11 @@ export class CompaintsComponent implements OnInit {
             .subscribe({
                 next: (data: any) => {
                     this.complaints = data.data;
+                    console.log(data.data);
                     this.complaints.forEach(complaint => {
                         const type = this.concerns.filter(concern => concern.value == complaint.type);
                         complaint.typeValue = type[0].label;
                         complaint.date_formatted = DateTime.fromISO(complaint.date_created).toFormat('LLLL dd, yyyy hh:mm:ss a');
-                        let icon = {};
-                        let background = {};
                     });
                     this.pagination.count = data.total;
                 },
@@ -101,7 +100,7 @@ export class CompaintsComponent implements OnInit {
     }
 
     openModal(complaint: any) {
-        const title = complaint ? 'Edit ' + complaint.subject : 'Add news & updates';
+        const title = complaint ? complaint.subject : '';
 
         const initialState: ModalOptions = {
             class: 'modal-lg',

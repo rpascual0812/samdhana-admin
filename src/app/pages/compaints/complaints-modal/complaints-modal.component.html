@@ -19,10 +19,10 @@
                                 {{complaint.subject}}
                             </div>
                         </div>
-                        <div class="form-group" *ngIf="complaint.complaint_document">
-                            <div>
-                                <a href="{{url}}/{{complaint.complaint_document.document.path}}"
-                                    target="_blank">{{complaint.complaint_document.document.original_name}}</a>
+                        <div class="form-group" *ngIf="complaint.complaint_document.length > 0">
+                            <div *ngFor="let document of complaint.complaint_document">
+                                <a href="{{url}}/{{document.document.path}}"
+                                    target="_blank">{{document.document.original_name}}</a>
                             </div>
                         </div>
 

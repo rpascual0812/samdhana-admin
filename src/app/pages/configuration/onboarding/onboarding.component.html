@@ -44,11 +44,10 @@
                                             {{i + 1}}
                                         </div>
                                         <div class="col-md-10">
-                                            <i *ngIf="onboarding.queue != 1" class="fa fa-arrow-up"
+                                            <i *ngIf="i > 0" class="fa fa-arrow-up"
                                                 style="cursor: pointer; color: grey;" title="Move Up"></i>
-                                            <i *ngIf="onboarding.queue != onboardings.length"
-                                                class="fa fa-arrow-down ml-2" style="cursor: pointer; color: grey;"
-                                                title="Move Down"></i>
+                                            <i *ngIf="i + 1 < onboardings.length" class="fa fa-arrow-down ml-2"
+                                                style="cursor: pointer; color: grey;" title="Move Down"></i>
                                         </div>
                                     </div>
 
