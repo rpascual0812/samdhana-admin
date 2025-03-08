@@ -1,15 +1,15 @@
-import {Component, HostBinding, OnInit, Renderer2} from '@angular/core';
+import { Component, HostBinding, OnInit, Renderer2 } from '@angular/core';
 
 @Component({
-  selector: 'app-main-layout',
-  templateUrl: './main-layout.component.html',
-  styleUrls: ['./main-layout.component.scss']
+    selector: 'app-main-layout',
+    templateUrl: './main-layout.component.html',
+    styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent implements OnInit {
     @HostBinding('class') class = 'wrapper';
     public sidebarMenuOpened = true;
 
-    constructor(private renderer: Renderer2) {}
+    constructor(private renderer: Renderer2) { }
 
     ngOnInit() {
         this.renderer.removeClass(
