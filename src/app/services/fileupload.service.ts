@@ -22,14 +22,14 @@ export class FileUploadService {
     //     return this.http.request(req);
     // }
 
-    async upload(file: File): Promise<any> {
+    upload(file: File): Observable<HttpEvent<any>> {
         const formData: FormData = new FormData();
         formData.append('file', file);
         const req = new HttpRequest('POST', `${_.BASE_URL}/documents/upload`, formData, {
             reportProgress: true,
             responseType: 'json'
         });
-        return await this.http.request(req).toPromise();
+        return this.http.request(req);
     }
 
     getFiles(): Observable<any> {

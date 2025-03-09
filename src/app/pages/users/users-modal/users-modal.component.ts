@@ -69,7 +69,7 @@ export class UsersModalComponent implements OnInit {
 
     setEmployeeForm() {
         this.user.birthdate = new Date(this.user.birthdate);
-        this.profilePicture = this.user ? this.url + '/' + this.user.user_document.document.path : this.profilePicture;
+        this.profilePicture = this.user ? this.user.user_document.document.path : this.profilePicture;
         this.isProducer = this.user ? this.user.is_seller : false;
 
         this.form = this.formBuilder.group({

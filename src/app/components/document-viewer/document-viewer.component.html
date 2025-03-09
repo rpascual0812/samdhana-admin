@@ -44,7 +44,7 @@
                                 <label class="image-checkbox"
                                     [class]="document.selected ? 'image-checkbox-checked' : ''"
                                     *ngFor="let document of documents; let i = index">
-                                    <img style="height: 200px;" src="{{url}}/{{document.path}}/{{document.filename}}"
+                                    <img style="height: 200px;" src="{{document.path}}/{{document.filename}}"
                                         (click)="toggleDocument(i)" />
                                     <i class="fa fa-check"></i>
                                 </label>

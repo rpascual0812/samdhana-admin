@@ -56,12 +56,12 @@
 
                                         <img class="card-img-top"
                                             style="filter: brightness(50%); width: 100%; height: 100%; object-fit: cover;"
-                                            src="{{url}}/{{banners[i]['background']['document']['path']}}" alt="">
+                                            src="{{banners[i]['background']['document']['path']}}" alt="">
                                         <div
                                             class="row card-img-overlay d-flex flex-column justify-content-end text-center">
                                             <img *ngIf="banners[i]['icon']['document'] != null"
                                                 style="height: 125px; width: 125px; position: absolute; left: 40%; top: 15%;"
-                                                src="{{url}}/{{banners[i]['icon']['document'] != null ? banners[i]['icon']['document']['path'] : 'assets/images/user_.png'}}">
+                                                src="{{banners[i]['icon']['document'] != null ? banners[i]['icon']['document']['path'] : 'assets/images/user_.png'}}">
                                             <h2 class="text-white">{{banners[i].title.slice(0, 18) +
                                                 (banners[i].title.length > 18 ? "..." : "")}}</h2>
                                             <p class="card-text text-white px-3 text-justify"
@@ -90,10 +90,10 @@
                 </div>
 
                 <img class="card-img-top" style="filter: brightness(50%); width: 100%; height: 100%; object-fit: cover;"
-                    src="{{url}}/{{banners[index]['background']['document']['path']}}" alt="">
+                    src="{{banners[index]['background']['document']['path']}}" alt="">
                 <div class="row card-img-overlay d-flex flex-column justify-content-end text-center">
                     <img *ngIf="banners[index]['icon']['document'] != null" style="border-radius: 50%; height: 40px; width: 40px; position: absolute; left: 46%; 
-        top: 37%;" src="{{url}}/{{banners[index]['icon']['document'] != null ? banners[index]['icon']['document']['path'] : 'assets/images/user_.png'}}">
+        top: 37%;" src="{{banners[index]['icon']['document'] != null ? banners[index]['icon']['document']['path'] : 'assets/images/user_.png'}}">
                     <h2 class="text-white">{{banners[index].title}}</h2>
                     <p class="card-text text-white pb-2 pt-1 text-justify" style="line-height: normal;">
                         {{banners[index].details}}</p>

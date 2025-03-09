@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { FileUploadService } from '@services/fileupload.service';
 import * as _ from '../../utilities/globals';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -63,18 +64,30 @@ export class FileUploaderComponent implements OnInit {
         this.submitted = true;
         this.processed++;
         this.fileUploadService.upload(file)
-            .then((data: any) => {
-                this.uploaded++;
-                this.files[i].status = 'Success';
+            .subscribe({
+                next: (event: any) => {
+                    if (event.type === HttpEventType.UploadProgress) {
+                        this.progress = Math.round(100 * event.loaded / event.total);
+                    } else if (event instanceof HttpResponse) {
 
-                this.document.emit({ file: data.body });
+                        if (this.progress == 100) {
+                            this.files[i].status = 'Success';
+                        }
+                        this.cdr.detectChanges();
 
+                        this.document.emit({ file: event.body });
+                    }
+                },
+                error: (err: any) => {
+                    console.log(err);
+                    this.progress = 0;
 
-            })
-            .catch((err: any) => {
-                this.files[i].status = 'Failed';
-                this.notProcessed++;
-                this.errors.push({ name: this.selectedFiles[i].name, status: err.statusText });
+                    if (err.error && err.error.message) {
+                        console.log(err.error.message);
+                    } else {
+                        console.log('Could not upload the file!');
+                    }
+                }
             });
     }
 

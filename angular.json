@@ -49,7 +49,7 @@
                             "path",
                             "os",
                             "fs",
-                            "angular2-chartjs"
+                            "sweetalert2"
                         ]
                     },
                     "configurations": {

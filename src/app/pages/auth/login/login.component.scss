@@ -47,7 +47,7 @@
 
 @function random_range($min, $max) {
     $rand: random();
-    $random_range: $min +floor($rand * (($max - $min) + 1));
+    $random_range: $min + floor($rand * (($max - $min) + 1));
     @return $random_range;
 }
 
@@ -64,9 +64,9 @@ $grad: (
     $v: random(4)+2;
     $a: random(5) * .1+.5;
     $grad: $grad,
-    radial-gradient($v+px $v+px at (random($w - $v * 2) + $v)+px (random($w - $v * 2) + $v)+px,
-        rgba(255, 255, 255, $a) 50%,
-        rgba(0, 0, 0, 0)) !global;
+        radial-gradient($v+px $v+px at (random($w - $v * 2) + $v)+px (random($w - $v * 2) + $v)+px,
+            rgba(255, 255, 255, $a) 50%,
+            rgba(0, 0, 0, 0)) !global;
 }
 
 // The CSS

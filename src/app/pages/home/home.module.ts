@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home.component';
 
-import { ChartModule } from 'angular2-chartjs';
+import { BaseChartDirective } from 'ng2-charts';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        ChartModule,
+        BaseChartDirective,
         NgxPaginationModule
     ]
 })

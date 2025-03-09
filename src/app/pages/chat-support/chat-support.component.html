@@ -28,8 +28,7 @@
                         <ul class="list-unstyled chat-list mt-2 mb-0">
                             <li class="clearfix {{user.active ? 'active' : ''}}" *ngFor="let user of users"
                                 (click)="setActiveChat(user)">
-                                <img src="{{url}}/{{user.chat_participant.user.user_document.document.path}}"
-                                    alt="avatar">
+                                <img src="{{user.chat_participant.user.user_document.document.path}}" alt="avatar">
                                 <div class="about">
                                     <div class="name">{{user.chat_participant.user.first_name}}
                                         {{user.chat_participant.user.last_name}}</div>
@@ -89,7 +88,7 @@
                             </div>
 
                             <img class="direct-chat-img"
-                                src="{{url}}/{{message.user && message.user.user_document ? message.user.user_document.document.path : 'assets/images/support.png'}}"
+                                src="{{message.user && message.user.user_document ? message.user.user_document.document.path : 'assets/images/support.png'}}"
                                 alt="">
 
                             <div class="direct-chat-text">

@@ -21,7 +21,7 @@
                         </div>
                         <div class="form-group" *ngIf="complaint.complaint_document.length > 0">
                             <div *ngFor="let document of complaint.complaint_document">
-                                <a href="{{url}}/{{document.document.path}}"
+                                <a href="{{document.document.path}}"
                                     target="_blank">{{document.document.original_name}}</a>
                             </div>
                         </div>
@@ -40,7 +40,7 @@
                                     </div>
 
                                     <img class="direct-chat-img"
-                                        src="{{url}}/{{message.user.user_document ? message.user.user_document.document.path : 'assets/images/support.png' }}"
+                                        src="{{message.user.user_document ? message.user.user_document.document.path : 'assets/images/support.png' }}"
                                         alt="Message User Image">
 
                                     <div class="direct-chat-text" [innerHTML]="message.message"></div>

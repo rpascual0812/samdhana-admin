@@ -26,7 +26,7 @@ export class SidebarComponent implements OnInit {
             .subscribe({
                 next: (data: any) => {
                     this.user = data;
-                    this.user.image = this.url + (this.user.user_document ? '' : '/assets/images/user.png');
+                    this.user.image = this.user.user_document.document.path ?? this.url + '/assets/images/user.png';
                 },
                 error: (error: any) => {
                     console.log(error);
