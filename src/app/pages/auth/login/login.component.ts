@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 
 import { AuthenticationService } from '@services/authentication.service';
 
@@ -14,7 +14,7 @@ import { AuthenticationService } from '@services/authentication.service';
 export class LoginComponent implements OnInit {
     form: FormGroup;
     isSubmitted: boolean = false;
-    year: string = moment().format('Y');
+    year: string = DateTime.now().toFormat('Y');
 
     snowCount: any = Array(1000).map((x, i) => i);
 
@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
         this.authenticationService.login(this.form.value)
             .then((data: any) => {
                 const exp = (JSON.parse(atob(data.user.access_token.split('.')[1]))).exp;
-                console.log(moment((exp * 1000)).format('YYYY-MM-DD'));
 
                 this.authenticationService.setSession(data);
                 this.router.navigateByUrl('/');

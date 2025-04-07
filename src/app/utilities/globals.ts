@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 //
 // ===== File globals.ts
 //
@@ -25,35 +25,25 @@ export function numbersOnly(event: any) {
 
 export const YEARS = () => {
     const years = [];
-    const dateStart = moment();
-    const dateEnd = moment().subtract(100, 'y');
+    const dateStart = DateTime.now();
+    const dateEnd = DateTime().minus({ years: 100 });
 
     while (dateEnd.diff(dateStart, 'years') != 0) {
-        years.push(dateStart.format('YYYY'));
-        dateStart.subtract(1, 'year');
+        years.push(dateStart.toFormat('YYYY'));
+        dateStart.minus({ years: 1 });
     }
     return years;
 }
 
-export const MONTHS = () => {
-    const months = [];
-    const dateStart = moment();
-    const dateEnd = moment().add(12, 'month');
-
-    while (dateEnd.diff(dateStart, 'months') > 0) {
-        months.push(("0" + dateStart.format('M')).slice(-2));
-        dateStart.add(1, 'month');
-    }
-    return months;
-}
+export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 export const DAYS = (year: any, month: any) => {
     const days = [];
     month = month ? month : '01';
-    year = year ? year : moment().format('YYYY');
+    year = year ? year : DateTime.now().toFormat('YYYY');
     console.log(year, month);
-    const dateStart = moment(year + '-' + month, 'YYYY-MM');
-    const dateEnd = moment(year + '-' + month, 'YYYY-MM').add(dateStart.daysInMonth(), 'days');
+    const dateStart = DateTime.fromISO(year + '-' + month, 'YYYY-MM');
+    const dateEnd = DateTime.fromISO(year + '-' + month, 'YYYY-MM').add(dateStart.daysInMonth(), 'days');
     while (dateEnd.diff(dateStart, 'days') > 0) {
         days.push(("0" + dateStart.format('D')).slice(-2));
         dateStart.add(1, 'days');
@@ -134,11 +124,11 @@ export async function confirmMessage(buttons: any, callback: any) {
 
 export function timeArray(duration: any) {
     let time_arr: any = [];
-    let time = moment('00:00', 'HH:mm');
-    let end_time = moment('23:30', 'HH:mm');
+    let time = DateTime.fromISO('00:00', 'HH:mm');
+    let end_time = DateTime.fromISO('23:30', 'HH:mm');
 
     time_arr.push({
-        value: moment('00:00', 'HH:mm').format('HH:mm')
+        value: DateTime.fromISO('00:00', 'HH:mm').format('HH:mm')
     });
 
     while (time.isBefore(end_time, 'minutes')) {

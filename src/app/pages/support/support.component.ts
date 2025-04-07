@@ -4,7 +4,6 @@ import { TexteditorComponent } from '@components/texteditor/texteditor.component
 import { SupportService } from '@services/support.service';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import Swal from 'sweetalert2';
-import moment from 'moment';
 
 declare var tinymce: any;
 @Component({

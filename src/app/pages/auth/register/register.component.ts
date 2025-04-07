@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import * as _ from '../../../utilities/globals';
 
 import { AuthenticationService } from '@services/authentication.service';
@@ -18,7 +18,6 @@ export class RegisterComponent implements OnInit {
     form: FormGroup;
     isSubmitted: boolean = false;
     confirm: any;
-    moment: any = moment;
 
     years: any;
     months: any;
@@ -49,7 +48,7 @@ export class RegisterComponent implements OnInit {
         });
 
         this.years = _.YEARS();
-        this.months = _.MONTHS();
+        this.months = _.MONTHS;
         this.days = _.DAYS(this.form.value.year, this.form.value.month);
     }
 
@@ -84,6 +83,10 @@ export class RegisterComponent implements OnInit {
 
     monthChanged() {
         this.days = _.DAYS(this.form.value.year, this.form.value.month);
+    }
+
+    getMonth(month: any) {
+        return DateTime.now().set({ month: month }).toFormat('MMMM');
     }
 }
 

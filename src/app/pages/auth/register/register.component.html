@@ -86,8 +86,7 @@
                             <select name="" id="" class="form-control" style="width: 7rem;" formControlName="month"
                                 (change)="monthChanged()">
                                 <option value="">Month</option>
-                                <option value="{{month}}" *ngFor="let month of months; index as i">{{moment(month,
-                                    'MM').format('MMMM')}}</option>
+                                <option value="{{month}}" *ngFor="let month of months; index as i">{{getMonth(month)}}</option>
                             </select>
                             <select name="" id="" class="form-control" formControlName="day">
                                 <option value="">Day</option>
