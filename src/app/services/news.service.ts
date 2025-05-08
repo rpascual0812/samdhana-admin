@@ -26,4 +26,8 @@ export class NewsService {
     delete(data: any) {
         return this.http.delete(`${_.BASE_URL}/articles/${data.pk}`, data);
     }
+
+    sort(pk: number, direction: string) {
+        return this.http.post(`${_.BASE_URL}/articles/${pk}/sort`, { direction });
+    }
 }

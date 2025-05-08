@@ -54,7 +54,6 @@ export class NewsComponent implements OnInit {
             .subscribe({
                 next: (data: any) => {
                     this.articles = data.data;
-                    console.log(this.articles);
                     this.articles.forEach(banner => {
                         banner.date_formatted = DateTime.fromISO(banner.date_created).toFormat('LLLL dd, yyyy hh:mm:ss a');
                         let icon = {};
@@ -71,7 +70,6 @@ export class NewsComponent implements OnInit {
                         // banner['icon'] = icon;
                         // banner['background'] = background;
                     });
-
                     this.pagination.count = data.total;
                 },
                 error: (error: any) => {
@@ -149,6 +147,49 @@ export class NewsComponent implements OnInit {
                 Swal.fire('Changes are not saved', '', 'info')
             }
         })
+    }
+
+    goUp(i: number) {
+        this.rearrange(i, 'up');
+    }
+
+    goDown(i: number) {
+        this.rearrange(i, 'down');
+    }
+
+    rearrange(i: number, direction: string) {
+        const pk = this.articles[i].pk;
+        this.newsService
+            .sort(pk, direction)
+            .subscribe({
+                next: (data: any) => {
+                    const article = this.articles[i];
+                    switch (direction) {
+                        case 'up':
+                            const prevArticle = this.articles[i - 1];
+                            prevArticle.sort_order = article.sort_order;
+                            article.sort_order -= 1;
+                            this.articles[i] = prevArticle;
+                            this.articles[i - 1] = article;
+                            break;
+                        case 'down':
+                            const nextArticle = this.articles[i + 1];
+                            nextArticle.sort_order = article.sort_order;
+                            this.articles[i] = nextArticle;
+                            article.sort_order += 1;
+                            this.articles[i + 1] = article;
+                            break;
+                    }
+                },
+                error: (error: any) => {
+                    console.log(error);
+                    setTimeout(() => { this.loading = false; }, 500);
+                },
+                complete: () => {
+                    console.log('Complete');
+                    setTimeout(() => { this.loading = false; }, 500);
+                }
+            });
     }
 
 }

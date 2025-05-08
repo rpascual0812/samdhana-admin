@@ -39,55 +39,54 @@
                 </div>
 
                 <div class="card-body table-responsive p-0">
-                    <table class="table table-hover text-nowrap">
-                        <thead>
+                    <table class="table text-nowrap">
+                        <tbody *ngFor="let article of articles| paginate : { itemsPerPage: pagination.tableSize, currentPage: pagination.page, totalItems: pagination.count }; let i = index">
                             <tr>
-                                <th>Order</th>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th>Description</th>
-                                <th>Owner</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr
-                                *ngFor="let article of articles| paginate : { itemsPerPage: pagination.tableSize, currentPage: pagination.page, totalItems: pagination.count }; let i = index">
-                                <td>
+                                <td rowspan="3" style="width: 20%;">
+                                    <img style="width: 100%;" src="{{article['article_document']['document']['path']}}" alt="">
+                                </td>
+                                <td style="width: 70%;">
                                     <div class="row">
-                                        <div class="col-md-2">
-                                            {{i + 1}}
+                                        <div class="col-md-1">
+                                            <span class="badge badge-warning">{{i + 1}}</span>
                                         </div>
-                                        <div class="col-md-10">
-                                            <i *ngIf="article.order != 1" class="fa fa-arrow-up"
-                                                style="cursor: pointer; color: grey;" title="Move Up"></i>
-                                            <i *ngIf="article.order != articles.length" class="fa fa-arrow-down ml-2"
-                                                style="cursor: pointer; color: grey;" title="Move Down"></i>
+                                        <div class="col-md-11">
+                                            <span class="h3">{{article.title}}</span>
                                         </div>
                                     </div>
-
                                 </td>
+                                <td rowspan="3" style="width: 10%;">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <button class="btn btn-sm btn-default" (click)="openModal(article)">Edit</button>
+                                            <button class="btn btn-sm btn-danger ml-1" (click)="delete(i)">
+                                                Delete
+                                            </button>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <button [disabled]="article.sort_order == 1" class="btn btn-sm btn-default" (click)="goUp(i)">
+                                                <i class="fa fa-arrow-up"></i>
+                                            </button>
+                                            <button [disabled]="pagination.count == article.sort_order" class="btn btn-sm btn-default" (click)="goDown(i)">
+                                                <i class="fa fa-arrow-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>
-                                    <img style="height: 200px;"
-                                        src="{{article['article_document']['document']['path']}}" alt="">
-                                </td>
-                                <td>{{article.title}}</td>
-                                <td class="text-wrap text-justify" style="max-width: 200px;">
-                                    {{article.description}}
-                                </td>
-                                <td>
-                                    <div>
+                                    <div class="h5">
                                         {{article.user.first_name}} {{article.user.last_name}}
                                     </div>
-                                    <div>
+                                    <div class="text-muted">
                                         {{article.date_formatted}}
                                     </div>
                                 </td>
-                                <td>
-                                    <button class="btn btn-sm btn-default" (click)="openModal(article)">Edit</button>
-                                    <button class="btn btn-sm btn-danger ml-1" (click)="delete(i)">
-                                        <i class="fa fa-times"></i>
-                                    </button>
+                            </tr>
+                            <tr>
+                                <td class="text-wrap text-justify" style="max-width: 200px;">
+                                    {{article.description}}
                                 </td>
                             </tr>
                         </tbody>
