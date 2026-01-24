@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     ngOnInit(): void {
         console.log(this.snowCount);
         this.form = this.formBuilder.group({
-            username: ['admin@samdhana.org', [Validators.required]],
+            username: ['admin', [Validators.required]],
             password: ['Password1', [Validators.required, Validators.minLength(6)]],
             remember: [false]
         });
