@@ -9,6 +9,7 @@ import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { ChatService } from '@services/chat.service';
 import { UserService } from '@services/user.service';
 import * as Ably from 'ably';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-chat-support',
@@ -19,7 +20,7 @@ export class ChatSupportComponent implements OnInit {
     @ViewChild('scrollable') private myScrollContainer: ElementRef;
     @ViewChild('staticTabs', { static: false }) staticTabs?: TabsetComponent;
     bsModalRef?: BsModalRef;
-    
+
     realtime: any;
     channel: any;
 
@@ -57,6 +58,8 @@ export class ChatSupportComponent implements OnInit {
         private router: Router,
         private readonly changeDetector: ChangeDetectorRef,
     ) { }
+
+    isSending: boolean = false;
 
     ngOnInit(): void {
         this.filters = {
@@ -187,7 +190,6 @@ export class ChatSupportComponent implements OnInit {
                     });
 
                     this.messages.unshift(...data.data);
-                    console.log('messages', this.messages);
                     // setTimeout(() => {
                     //     this.loadingMessages = false;
                     //     this.messages.unshift(...data.data);
@@ -206,6 +208,8 @@ export class ChatSupportComponent implements OnInit {
     }
 
     send() {
+        this.isSending = true;
+
         var body = {
             'uuid': this.activeChat.uuid,
             'message': this.message,
@@ -224,7 +228,6 @@ export class ChatSupportComponent implements OnInit {
                         this.playSent();
                         // console.log(this.message, data);
                         this.publishMessage(data);
-
                     },
                     error: (error: any) => {
                         console.log(error);
@@ -260,18 +263,18 @@ export class ChatSupportComponent implements OnInit {
     }
 
     async initAbly() {
-        this.realtime = new Ably.Realtime.Promise('doWdpw.N7ThxA:oZEbqOjgtiGu_9xXAPMGgaIjahml6kKvzBCEgZqziW8');
+        this.realtime = new Ably.Realtime.Promise(environment.ably_key);
         await this.realtime.connection.once("connected");
 
         this.channel = this.realtime.channels.get(this.activeChat.uuid);
         await this.channel.subscribe((msg) => {
             const data = msg.data;
-            // console.log('initAbly', data);
+            console.log('initAbly', data);
             this.fetchMessage(data['uuid'], data['pk']);
             this.playReceived();
         });
 
-        // let client = new Ably.Realtime({ key: 'doWdpw.N7ThxA:oZEbqOjgtiGu_9xXAPMGgaIjahml6kKvzBCEgZqziW8' });
+        // let client = new Ably.Realtime({ key: environment.ably_key });
         // let channel = client.channels.get('user-' + this.activeChat.chat_participant.user.pk);
         // channel.subscribe(this.activeChat.uuid, message => {
         //     console.log(message);
@@ -281,12 +284,14 @@ export class ChatSupportComponent implements OnInit {
     }
 
     async publishMessage(data) {
-        const realtime = new Ably.Realtime.Promise('doWdpw.N7ThxA:oZEbqOjgtiGu_9xXAPMGgaIjahml6kKvzBCEgZqziW8');
+        const realtime = new Ably.Realtime.Promise(environment.ably_key);
         await realtime.connection.once("connected");
         // console.log('publish message', this.activeChat.uuid);
         const channel = realtime.channels.get(this.activeChat.uuid);
         // await this.realtime.connection.once("connected");
         await channel.publish(this.activeChat.uuid, data.data);
+
+        this.isSending = false;
     }
 
     fetchMessage(uuid: any, pk: any) {

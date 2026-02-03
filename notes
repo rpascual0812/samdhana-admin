@@ -1,4 +1,4 @@
-scp -r dist/market-admin ubuntu@47.129.2.142:/usr/share/nginx/html
+scp -r dist/market-admin ubuntu@52.65.41.76:/usr/share/nginx/html
 
 server{
     listen 80 default_server;
@@ -13,9 +13,9 @@ server{
 server{
     listen 80 default_server;
     server_name _;
-    root /home/ubuntu/admin;
-    include /etc/nginx/default.d/*.conf;
+    root /usr/share/nginx/html;
+    index index.html;
     location / {
-        try_files $uri $uri/ /index.html =404;
+        try_files $uri $uri/ /index.html;
     }
 }

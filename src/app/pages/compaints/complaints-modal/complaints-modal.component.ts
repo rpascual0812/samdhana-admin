@@ -117,7 +117,6 @@ export class ComplaintsModalComponent implements OnInit {
                     this.messages.forEach(message => {
                         message.date_formatted = DateTime.fromISO(message.date_created).toFormat('LLLL dd, yyyy hh:mm:ss a');
                     });
-                    console.log('messages', this.messages);
                 },
                 error: (error: any) => {
                     console.log(error);

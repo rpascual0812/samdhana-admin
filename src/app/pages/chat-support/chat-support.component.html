@@ -101,9 +101,13 @@
                 <div class="card-footer p-0">
                     <div class="input-group">
                         <input type="text" name="message" placeholder="Type Message ..." class="form-control"
-                            [(ngModel)]="message" (keyup.enter)="send()">
+                            [(ngModel)]="message" (keyup.enter)="send()" [disabled]="isSending">
                         <span class="input-group-append">
-                            <button type="button" class="btn btn-primary" (click)="send()">Send</button>
+                            <button type="button" class="btn btn-primary" (click)="send()" [disabled]="isSending">
+                                Send
+                                <span *ngIf="isSending" class="spinner-border spinner-border-sm" role="status"
+                                    aria-hidden="true"></span>
+                            </button>
                         </span>
                     </div>
                 </div>
