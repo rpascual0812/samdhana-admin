@@ -6,6 +6,8 @@ import * as _ from '../../utilities/globals';
 import { UsersModalComponent } from './users-modal/users-modal.component';
 import { UserService } from '@services/user.service';
 
+import Swal from 'sweetalert2';
+
 @Component({
     selector: 'app-users',
     templateUrl: './users.component.html',
@@ -112,5 +114,35 @@ export class UsersComponent implements OnInit {
         this.pagination.tableSize = event.target.value;
         this.pagination.page = 1;
         this.fetch();
+    }
+
+    approveProducer(user: any) {
+        Swal.fire({
+            icon: 'question',
+            title: 'Are you sure your want to approve ' + user.first_name + ' as a producer?',
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: 'Yes, approve',
+            confirmButtonColor: '#28a745',
+            denyButtonText: `Cancel`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                this.userService.approveProducer(user).subscribe({
+                    next: (data: any) => {
+                        this.fetch();
+                    },
+                    error: (error: any) => {
+                        console.log(error);
+                    },
+                    complete: () => {
+                        console.log('Complete');
+                    }
+                });
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+
     }
 }

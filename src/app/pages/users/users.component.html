@@ -68,8 +68,13 @@
                                 <td>{{user.gender ? user.gender.name : ''}}</td>
                                 <td>{{user.role ? user.role.name : ''}}</td>
                                 <td>
-                                    <span class="badge {{user.is_seller ? 'bg-success' : 'bg-danger'}}">{{
-                                        user.is_seller ? 'Yes' : 'No' }}</span>
+                                    <button *ngIf="!user.is_seller && user.seller" class="btn btn-sm btn-primary"
+                                        (click)="approveProducer(user)">
+                                        Approve
+                                    </button>
+                                    <span *ngIf="user.is_seller ||  (!user.is_seller && !user.seller)"
+                                        class="badge {{user.is_seller ? 'bg-success' : 'bg-danger'}}">{{
+                                        user.is_seller ? 'Producer' : 'Not a Producer' }}</span>
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-default" (click)="openModal(user)">Edit</button>
