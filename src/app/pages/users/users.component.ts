@@ -7,6 +7,7 @@ import { UsersModalComponent } from './users-modal/users-modal.component';
 import { UserService } from '@services/user.service';
 
 import Swal from 'sweetalert2';
+import { SellerApprovalModalComponent } from './seller-approval-modal/seller-approval-modal.component';
 
 @Component({
     selector: 'app-users',
@@ -116,33 +117,53 @@ export class UsersComponent implements OnInit {
         this.fetch();
     }
 
-    approveProducer(user: any) {
-        Swal.fire({
-            icon: 'question',
-            title: 'Are you sure your want to approve ' + user.first_name + ' as a producer?',
-            showDenyButton: false,
-            showCancelButton: true,
-            confirmButtonText: 'Yes, approve',
-            confirmButtonColor: '#28a745',
-            denyButtonText: `Cancel`,
-        }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                this.userService.approveProducer(user).subscribe({
-                    next: (data: any) => {
-                        this.fetch();
-                    },
-                    error: (error: any) => {
-                        console.log(error);
-                    },
-                    complete: () => {
-                        console.log('Complete');
-                    }
-                });
-            } else if (result.isDenied) {
-                Swal.fire('Changes are not saved', '', 'info')
-            }
-        })
+    openProducerApprovalModal(user: any) {
+        const title = user.first_name + ' Seller Registration Info';
 
+        const initialState: ModalOptions = {
+            class: 'modal-lg',
+            initialState: {
+                title: title,
+                user: user,
+            }
+        };
+        this.bsModalRef = this.modalService.show(SellerApprovalModalComponent, initialState);
+        this.bsModalRef.content.saveBtnName = 'Approve';
+        this.bsModalRef.content.closeBtnName = 'Close';
+
+        this.bsModalRef.content.callback.subscribe(res => {
+            const data = res.data.data;
+            this.fetch();
+        });
     }
+
+    // approveProducer(user: any) {
+    //     Swal.fire({
+    //         icon: 'question',
+    //         title: 'Are you sure your want to approve ' + user.first_name + ' as a producer?',
+    //         showDenyButton: false,
+    //         showCancelButton: true,
+    //         confirmButtonText: 'Yes, approve',
+    //         confirmButtonColor: '#28a745',
+    //         denyButtonText: `Cancel`,
+    //     }).then((result) => {
+    //         /* Read more about isConfirmed, isDenied below */
+    //         if (result.isConfirmed) {
+    //             this.userService.approveProducer(user).subscribe({
+    //                 next: (data: any) => {
+    //                     this.fetch();
+    //                 },
+    //                 error: (error: any) => {
+    //                     console.log(error);
+    //                 },
+    //                 complete: () => {
+    //                     console.log('Complete');
+    //                 }
+    //             });
+    //         } else if (result.isDenied) {
+    //             Swal.fire('Changes are not saved', '', 'info')
+    //         }
+    //     })
+
+    // }
 }
