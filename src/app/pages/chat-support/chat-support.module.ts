@@ -7,6 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { TexteditorModule } from '@components/texteditor/texteditor.module';
 
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TruncatePipe } from '@/truncate.pipe';
 
 
 
@@ -20,7 +21,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
         CommonModule,
         NgxPaginationModule,
         TexteditorModule,
-        TabsModule.forRoot()
+        TabsModule.forRoot(),
+        TruncatePipe
     ]
 })
 export class ChatSupportModule { }

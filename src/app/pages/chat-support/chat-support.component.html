@@ -33,8 +33,9 @@
                                     <div class="name">{{user.chat_participant.user.first_name}}
                                         {{user.chat_participant.user.last_name}}</div>
                                     <div class="status">
-                                        {{user.last_message}}
-                                        <span style="position: absolute; right: 5px;">{{user.date_formatted}}</span>
+                                        {{user.last_message | truncate: 35}}
+                                        <span
+                                            style="position: absolute; right: 5px;">{{daysPassed(user.last_message_date)}}</span>
                                     </div>
                                 </div>
                             </li>

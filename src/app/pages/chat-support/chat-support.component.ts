@@ -332,4 +332,20 @@ export class ChatSupportComponent implements OnInit {
         audio.load();
         audio.play();
     }
+
+    daysPassed(last_message_date: any) {
+        const lastMessageDate = DateTime.fromISO(last_message_date);
+        const now = DateTime.now();
+        const diffInDays = now.diff(lastMessageDate, 'days').toObject().days;
+
+        if (diffInDays < 1) {
+            const diffInHours = now.diff(lastMessageDate, 'hours').toObject().hours;
+            if (diffInHours < 1) {
+                const diffInMinutes = now.diff(lastMessageDate, 'minutes').toObject().minutes;
+                return Math.floor(diffInMinutes) + 'm ago';
+            }
+            return Math.floor(diffInHours) + 'h ago';
+        }
+        return Math.floor(diffInDays) + 'd ago';
+    }
 }

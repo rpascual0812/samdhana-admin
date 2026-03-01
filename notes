@@ -1,4 +1,4 @@
-scp -r dist/market-admin ubuntu@54.153.217.185:/usr/share/nginx/html
+scp -r dist/market-admin ubuntu@54.153.217.185:/var/www/html/admin
 
 server{
     listen 80 default_server;
