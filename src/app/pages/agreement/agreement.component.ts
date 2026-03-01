@@ -40,7 +40,6 @@ export class AgreementComponent implements OnInit {
         );
 
         this.setForm();
-        this.fetch();
     }
 
     setForm() {
@@ -49,6 +48,10 @@ export class AgreementComponent implements OnInit {
             legal: [this.agreement.legal ? this.agreement.legal : '', Validators.required],
             terms: [this.agreement.terms ? this.agreement.terms : '', Validators.required],
         });
+
+        setTimeout(() => {
+            this.fetch();
+        }, 1000);
     }
 
     get f() { return this.form.controls; }
@@ -57,17 +60,13 @@ export class AgreementComponent implements OnInit {
         this.configurationService.fetchAll({ 'group': 'agreement' })
             .subscribe({
                 next: (data: any) => {
-                    data.data.forEach((agreement) => {
-                        if (agreement.name == 'disclaimer') {
-                            this.disclaimerEditor.setContent(agreement.value);
-                        }
-                        if (agreement.name == 'legal') {
-                            this.legalEditor.setContent(agreement.value);
-                        }
-                        if (agreement.name == 'terms') {
-                            this.termsEditor.setContent(agreement.value);
-                        }
-                    });
+                    const agreement = data.data.filter((item) => item.name == 'disclaimer')[0] ?? { value: '' };
+                    const legal = data.data.filter((item) => item.name == 'legal')[0] ?? { value: '' };
+                    const terms = data.data.filter((item) => item.name == 'terms')[0] ?? { value: '' };
+
+                    this.disclaimerEditor.setContent(agreement.value);
+                    this.legalEditor.setContent(legal.value);
+                    this.termsEditor.setContent(terms.value);
                 },
                 error: (error: any) => {
                     console.log(error);
