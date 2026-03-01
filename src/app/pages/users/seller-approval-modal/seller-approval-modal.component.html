@@ -1,0 +1,61 @@
+<div>
+    <div class="modal-lg modal-dialog-centered">
+        <app-loader></app-loader>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{title}}</h4>
+                <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+                    <span aria-hidden="true" class="visually-hidden">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Name</h5>
+                            <p class="card-text">{{seller.first_name}} {{seller.last_name}}</p>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Mobile Number</h5>
+                            <p class="card-text">{{seller.mobile_number}}</p>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Email Address</h5>
+                            <p class="card-text">{{seller.email_address}}</p>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Birthdate</h5>
+                            <p class="card-text">{{seller.birthdate}}</p>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">About</h5>
+                            <p class="card-text">{{seller.about}}</p>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Display Photo</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" *ngFor="let document of displayPhotos">
+                                    <img [src]="document.document.path" alt=""
+                                        style="max-width: 100%; max-height: 300px;">
+                                </li>
+                            </ul>
+
+                            <h5 class="card-title">Documents</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item" *ngFor="let document of attachedDocuments">
+                                    <img [src]="document.document.path" alt=""
+                                        style="max-width: 100%; max-height: 300px;">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="!user.archived && !user.is_seller" type="button" class="btn btn-primary"
+                    (click)="submit()">{{saveBtnName}}</button>
+                <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">{{closeBtnName}}</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -151,4 +151,8 @@ export class TexteditorComponent implements OnInit, AfterViewInit {
         this.editor.setContent('');
     }
 
+    setContent(content: any) {
+        this.editor.setContent(content);
+    }
+
 }

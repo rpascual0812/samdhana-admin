@@ -57,14 +57,17 @@ export class AgreementComponent implements OnInit {
         this.configurationService.fetchAll({ 'group': 'agreement' })
             .subscribe({
                 next: (data: any) => {
-                    // console.log('configuration', data.data);
                     data.data.forEach((agreement) => {
-                        this.agreement[agreement.name] = agreement.value;
-                        // if (agreement.name == 'disclaimer') {
-                        //     this.disclaimerEditor.setContent();
-                        // }
+                        if (agreement.name == 'disclaimer') {
+                            this.disclaimerEditor.setContent(agreement.value);
+                        }
+                        if (agreement.name == 'legal') {
+                            this.legalEditor.setContent(agreement.value);
+                        }
+                        if (agreement.name == 'terms') {
+                            this.termsEditor.setContent(agreement.value);
+                        }
                     });
-                    // console.log(this.agreement);
                 },
                 error: (error: any) => {
                     console.log(error);
