@@ -26,8 +26,8 @@
                                 placeholder="Search..." (keyup)="fetch()">
                         </div>
                         <ul class="list-unstyled chat-list mt-2 mb-0">
-                            <li class="clearfix {{user.active ? 'active' : ''}}" *ngFor="let user of users"
-                                (click)="setActiveChat(user)">
+                            <li class="clearfix {{ isUserActive(user) }} {{ user.read ? '' : 'unread' }}"
+                                *ngFor="let user of users" (click)="setActiveChat(user)">
                                 <img src="{{user.chat_participant.user.user_document.document.path}}" alt="avatar">
                                 <div class="about">
                                     <div class="name">{{user.chat_participant.user.first_name}}

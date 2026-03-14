@@ -24,6 +24,9 @@ export class ChatSupportComponent implements OnInit {
     realtime: any;
     channel: any;
 
+    realtimeBubble: any;
+    channelBubble: any;
+
     loading: boolean = false;
     users: any = [];
     filters: any = {};
@@ -123,6 +126,11 @@ export class ChatSupportComponent implements OnInit {
                     this.users.forEach(user => {
                         user.active = false;
                         user.date_formatted = DateTime.fromISO(user.last_message_date).toFormat('LLLL dd, yyyy hh:mm:ss a');
+                        // check if messages has unread
+                        const unreadMessages = user.chat_messages_read.filter(chat => chat.read == false);
+                        if (unreadMessages.length == 0) {
+                            user.read = true;
+                        }
                     });
                     this.pagination.count = data.total;
                 },
@@ -133,6 +141,8 @@ export class ChatSupportComponent implements OnInit {
                 complete: () => {
                     console.log('Complete');
                     setTimeout(() => { this.loading = false; }, 500);
+
+                    this.initAbly();
                 }
             });
     }
@@ -148,16 +158,16 @@ export class ChatSupportComponent implements OnInit {
         this.fetch();
     }
 
-    setActiveChat(user: any) {
-        this.users.forEach(user_ => {
-            user.active = false;
-            if (user.pk == user_.pk) {
-                user.active = true;
-            }
-        });
+    isUserActive(user: any) {
+        if (user.pk == this.activeChat.pk) {
+            return 'active';
+        }
+        return '';
+    }
 
+    setActiveChat(user: any) {
         this.activeChat = user;
-        this.initAbly();
+        this.initAblyBubble();
 
         this.messages = [];
         this.messagesPagination = {
@@ -167,9 +177,24 @@ export class ChatSupportComponent implements OnInit {
         this.fetchMessages(() => {
             this.scroll();
         });
-        // setTimeout(() => {
-        //     this.scroll();
-        // }, 1000);
+
+        this.toggleMessagesRead(user);
+    }
+
+    toggleMessagesRead(user: any) {
+        this.chatService
+            .toggleMessagesRead(user.pk, true)
+            .subscribe({
+                next: (data: any) => {
+                    user.read = true;
+                },
+                error: (error: any) => {
+                    console.log(error);
+                },
+                complete: () => {
+                    console.log('Complete');
+                }
+            });
     }
 
     fetchMessages(callback: any) {
@@ -263,13 +288,26 @@ export class ChatSupportComponent implements OnInit {
     }
 
     async initAbly() {
+        console.log('initAbly');
         this.realtime = new Ably.Realtime.Promise(environment.ably_key);
         await this.realtime.connection.once("connected");
-
-        this.channel = this.realtime.channels.get(this.activeChat.uuid);
+        this.channel = this.realtime.channels.get('moderator-web-app');
         await this.channel.subscribe((msg) => {
             const data = msg.data;
             console.log('initAbly', data);
+            this.fetchUser(data);
+            this.playReceived();
+        });
+    }
+
+    async initAblyBubble() {
+        this.realtimeBubble = new Ably.Realtime.Promise(environment.ably_key);
+        await this.realtimeBubble.connection.once("connected");
+        console.log('uuid', this.activeChat.uuid);
+        this.channelBubble = this.realtimeBubble.channels.get(this.activeChat.uuid);
+        await this.channelBubble.subscribe((msg) => {
+            const data = msg.data;
+            // console.log('initAblyBubble', data);
             this.fetchMessage(data['uuid'], data['pk']);
             this.playReceived();
         });
@@ -294,6 +332,42 @@ export class ChatSupportComponent implements OnInit {
         this.isSending = false;
     }
 
+    fetchUser(incomingMessage: any) {
+        const filters = {
+            pk: incomingMessage.user_pk,
+        };
+
+        this.chatService
+            .fetchChatPerUser(filters)
+            .subscribe({
+                next: (data: any) => {
+                    let incomingChat = null;
+                    this.users.forEach(user => {
+                        if (user.uuid == incomingMessage.uuid) {
+                            user.last_message = incomingMessage.message;
+
+                            incomingChat = user;
+                            user.read = false;
+                        }
+                    });
+
+                    this.users = this.users.filter(user => user.uuid !== incomingChat.uuid);
+                    this.users.unshift(incomingChat);
+
+                    this.messages.push(data);
+                    this.scroll();
+                },
+                error: (error: any) => {
+                    console.log(error);
+                    setTimeout(() => { this.loading = false; }, 500);
+                },
+                complete: () => {
+                    console.log('Complete');
+                    setTimeout(() => { this.loading = false; }, 500);
+                }
+            });
+    }
+
     fetchMessage(uuid: any, pk: any) {
         const filters = {
             uuid: uuid,
@@ -304,7 +378,6 @@ export class ChatSupportComponent implements OnInit {
             .fetchMessage(filters)
             .subscribe({
                 next: (data: any) => {
-                    console.log(data);
                     this.messages.push(data);
                     this.scroll();
                 },

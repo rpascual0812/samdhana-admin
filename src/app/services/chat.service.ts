@@ -15,6 +15,10 @@ export class ChatService {
         return this.http.get(`${_.BASE_URL}/chats`, { params: filters });
     }
 
+    fetchChatPerUser(filters: any) {
+        return this.http.get(`${_.BASE_URL}/chats/user/${filters.pk}`);
+    }
+
     fetchMessage(filters: any) {
         return this.http.get(`${_.BASE_URL}/chats/${filters.uuid}/messages/${filters.pk}`);
     }
@@ -29,5 +33,9 @@ export class ChatService {
 
     fetch(data: any) {
         return this.http.get(`${_.BASE_URL}/chats`);
+    }
+
+    toggleMessagesRead(pk: number, status: boolean) {
+        return this.http.post(`${_.BASE_URL}/chats/${pk}/messages/read`, { status });
     }
 }
