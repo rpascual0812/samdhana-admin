@@ -238,7 +238,7 @@ export class ChatSupportComponent implements OnInit {
         var body = {
             'uuid': this.activeChat.uuid,
             'message': this.message,
-            'user_pk': this.user.pk,
+            'user_pk': this.user.pk
         };
 
         if (this.message != '') {

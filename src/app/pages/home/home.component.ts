@@ -54,11 +54,36 @@ export class HomeComponent implements OnInit {
             take: this.pagination.tableSize
         };
 
-        this.ordersByCategory();
-        this.countOrders('total');
-        this.countOrders('closed');
-        this.countOrders('cancelled');
+        // this.ordersByCategory();
+        this.countOrdersByStatus();
         this.fetch();
+    }
+
+    countOrdersByStatus() {
+        this.reportService
+            .countOrdersByStatus()
+            .subscribe({
+                next: (data: any) => {
+                    data.forEach((item: any) => {
+                        switch (item.name) {
+                            case 'Ordered':
+                                this.total.orders += parseInt(item.total);
+                                break;
+                            case 'Cancelled':
+                                this.total.cancelled = parseInt(item.total);
+                                break;
+                            case 'Order Received':
+                            case 'Fulfilled':
+                                this.total.closed = parseInt(item.total);
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+
+                    // this.setStatusesChart();
+                }
+            });
     }
 
     countOrders(type: any) {
@@ -66,7 +91,6 @@ export class HomeComponent implements OnInit {
             .countOrders({ type })
             .subscribe({
                 next: (data: any) => {
-                    console.log(type, data);
                     switch (type) {
                         case 'closed':
                             this.total.closed = data.total;
@@ -97,7 +121,6 @@ export class HomeComponent implements OnInit {
             .ordersByCategory()
             .subscribe({
                 next: (data: any) => {
-                    console.log('categories chart', data);
                     this.ordersByCategories = data;
                     this.setCategoriesChart();
                 },
@@ -122,11 +145,10 @@ export class HomeComponent implements OnInit {
                 next: (data: any) => {
                     this.orders = data.data;
 
-                    this.orders.forEach(order => {
+                    this.orders.forEach((order: any) => {
                         order.date_formatted = DateTime.fromISO(order.date_created).toFormat('LLLL dd, yyyy hh:mm:ss a');
                     });
 
-                    console.log(this.orders);
                     this.pagination.count = data.total;
                 },
                 error: (error: any) => {
@@ -152,10 +174,10 @@ export class HomeComponent implements OnInit {
     }
 
     setCategoriesChart() {
-        let labels = [],
-            data = [];
+        let labels: string[] = [],
+            data: number[] = [];
 
-        this.ordersByCategories.forEach(order => {
+        this.ordersByCategories.forEach((order: any) => {
             labels.push(order.name);
             data.push(order.category_pk);
         });

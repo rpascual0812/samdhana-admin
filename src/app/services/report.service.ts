@@ -22,4 +22,8 @@ export class ReportService {
     ordersByCategory() {
         return this.http.get(`${_.BASE_URL}/report/count_orders_by_category`);
     }
+
+    countOrdersByStatus() {
+        return this.http.get(`${_.BASE_URL}/report/count_orders_by_status`);
+    }
 }
